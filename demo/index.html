@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Examples | jQuery Date Dropdowns</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script src="../dist/jquery.date-dropdowns.min.js"></script>
+		<link href="styles.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="header-bar">
+			<h1><strong>jQuery Date Dropdowns &gt;</strong> Examples</h1>
+
+			<nav>
+				<ul>
+					<li>
+						<a href="https://github.com/IckleChris/jquery-date-dropdowns/blob/master/README.md">Documentation</a>
+					</li>
+					<li class="active">
+						<a href="#">Examples</a>
+					</li>
+					<li>
+						<a href="https://github.com/IckleChris/jquery-date-dropdowns">Github</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+		<div class="wrapper">
+			<div class="example">
+				<h2>Plugin Defaults</h2>
+				<input type="hidden" id="example1">
+<pre class="code-wrapper"><code><span class="highlight">$("example1").dateDropdowns();</span></code></pre>
+			</div>
+
+			<div class="example">
+				<h2>Alternative Submit Format</h2>
+				<input type="hidden" id="example2">
+<pre class="code-wrapper"><code>$("example2").dateDropdowns({
+    <span class="highlight">submitFormat: "dd/mm/yyyy"</span>
+});</code></pre>
+			</div>
+
+			<div class="example">
+				<h2>Default Date</h2>
+				<input type="hidden" id="example3">
+<pre class="code-wrapper"><code>$("example1").dateDropdowns({
+    <span class="highlight">defaultValue: "2010-04-28"</span>
+});</code></pre>
+			</div>
+
+			<div class="example">
+				<h2>Min. Age 18 (Year)</h2>
+				<input type="hidden" id="example4">
+<pre class="code-wrapper"><code>$("example4").dateDropdowns({
+    <span class="highlight">minAge: 18</span>
+});</code></pre>
+			</div>
+
+			<div class="example">
+				<h2>Alternative Display Format</h2>
+				<input type="hidden" id="example5">
+<pre class="code-wrapper"><code>$("example5").dateDropdowns({
+    <span class="highlight">displayFormat: "mdy"</span>
+});</code></pre>
+			</div>
+
+			<div class="example">
+				<h2>Short Month Names</h2>
+				<div id="example6"></div>
+<pre class="code-wrapper"><code>$("example6").dateDropdowns({
+    <span class="highlight">monthFormat: "short"</span>
+});</code></pre>
+			</div>
+		</div>
+
+		<script>
+			$(function() {
+				$("#example1").dateDropdowns();
+
+				$("#example2").dateDropdowns({
+					submitFieldName: 'example2',
+					submitFormat: "dd/mm/yyyy"
+				});
+
+				$("#example3").dateDropdowns({
+					submitFieldName: 'example3',
+					defaultDate: '2010-02-17'
+				});
+
+				$("#example4").dateDropdowns({
+					submitFieldName: 'example4',
+					minAge: 18
+				});
+
+				$("#example5").dateDropdowns({
+					submitFieldName: 'example5',
+					displayFormat: 'mdy'
+				});
+
+				$("#example6").dateDropdowns({
+					submitFieldName: 'example6',
+					monthFormat: 'short'
+				});
+
+				// Set all hidden fields to type text for the demo
+				$('input[type="hidden"]').attr('type', 'text').attr('readonly', 'readonly');
+			});
+		</script>
+	</body>
+</html>

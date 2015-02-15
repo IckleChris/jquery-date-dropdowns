@@ -1,0 +1,32 @@
+{
+	"name": "jquery_date_dropdowns",
+	"title": "jQuery Date Dropdowns",
+	"description": "A simple, customisable date select plugin",
+	"keywords": [
+		"jquery",
+		"plugin",
+		"datepicker",
+		"date-select"
+	],
+	"version": "0.1.0",
+	"author": {
+		"name": "Chris Brown",
+		"email": "chris1990@live.co.uk",
+		"url": "https://github.com/IckleChris"
+	},
+	"maintainers": [
+		{
+			"name": "Chris Brown",
+			"email": "chris1990@live.co.uk",
+			"url": "https://github.com/IckleChris"
+		}
+	],
+	"licenses": [
+		{
+			"type": "MIT"
+		}
+	],
+	"dependencies": {
+		"jquery": ">=1.4"
+	}
+}

@@ -1,0 +1,161 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto+Condensed:400,700);
+
+/* Body - remove browser margin & set padding to accommodate for the fixed header bar */
+body {
+    margin: 0;
+    padding-top: 89px;
+    background: #FEFEFE;
+}
+
+/* Header Bar */
+.header-bar {
+    background: #EF6F6C;
+    color: #FFF;
+    padding: 0 50px 0 30px;
+    box-sizing: border-box;
+    font-family: "Roboto Condensed", helvetica, arial, sans-serif;
+    letter-spacing: 0.01em;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+.header-bar h1 {
+    font-size: 1.45em;
+    font-weight: 400;
+    display: inline-block;
+}
+
+.header-bar h1 strong {
+    font-weight: 700;
+    margin-right: 2px;
+}
+
+.header-bar nav {
+    float: right;
+}
+
+.header-bar nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+.header-bar nav ul li {
+    list-style-type: none;
+    display: inline-block;
+    float: left;
+}
+
+.header-bar nav ul li a {
+    line-height: 59px;
+    color: #FFF;
+    text-decoration: none;
+    font-size: 17px;
+    padding: 0 20px;
+    display: inline-block;
+}
+
+.header-bar nav ul li.active,
+.header-bar nav ul li:hover {
+    background: #F28B89;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 95%;
+    text-align: center;
+}
+
+/* Plugin Example Container */
+.example {
+    width: 33%;
+    min-width: 400px;
+    padding: 15px;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.example:first-of-type {
+    position: relative;
+    bottom: 35px;
+}
+
+/* Example Heading */
+.example h2 {
+    font-family: "Roboto Condensed", helvetica, arial, sans-serif;
+    font-size: 1.3em;
+    margin: 15px 0;
+    color: #4F5462;
+}
+
+.example input {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 150px;
+    padding: 8px 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    background: #F2F2F2;
+    text-align: center;
+    font-size: 1em;
+    letter-spacing: 0.02em;
+    font-family: "Roboto Condensed", helvetica, arial, sans-serif;
+}
+
+.example select {
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    margin: 0 3px;
+}
+
+.example select.invalid {
+    color: #E9403C;
+}
+
+/* Code Blocks */
+pre.code-wrapper {
+    padding: 15px 30px;
+    margin-top: 20px;
+    background: #F4F6F4;
+    color: #393D3F;
+    text-align: left;
+    border: 1px solid #DCDFDC;
+    border-radius: 3px;
+}
+
+pre code {
+    font-family: 'Source Code Pro', monospace, monospace;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Highlighted Code Blocks */
+pre code span.highlight {
+    color: #EF6F6C;
+}
+
+/* Media */
+@media(max-width: 847px) {
+    .header-bar h1 {
+        text-align: center !important;
+        width: 100%;
+    }
+
+    .header-bar nav {
+        display: none;
+    }
+
+    .example:first-of-type {
+        bottom: 0;
+    }
+}
+
+@media(min-width: 848px) {
+    .header-bar nav {
+        display: block;
+    }
+}
