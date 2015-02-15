@@ -5,11 +5,6 @@
  *  Made by Chris Brown
  *  Under MIT License
  */
-/*
- * jQuery Date Dropdowns Plugin
- * Based on the jQuery Boilerplace (https://github.com/jquery-boilerplate/jquery-boilerplate)
- */
-
 ;(function ($, window, document, undefined) {
 
 	"use strict";
