@@ -6,11 +6,17 @@
 **Note:** This plugin is effectively still in _beta_. If you use it and it catches fire, put it out and file an accident report.
 
 ##Usage
+####Instantiation
+
      $("#date_of_birth").dateDropdowns({
          configOption: configValue
      });
 
 The plugin can be initialised either directly on an input field, or on a container element (e.g. a `<div>`).
+
+####Date Validation
+The **Day** dropdown's options change automatically depending on the month selected. If the day value is rendered invalid after the selection of a month (e.g. selecting February when the selected day is 31st) the day dropdown is reset and a class of **invalid** is applied, remaining until a valid day is selected.
+
 ##Configuration Options
 
 ####daySuffixes
