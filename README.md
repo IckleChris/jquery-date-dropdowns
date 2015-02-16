@@ -1,6 +1,8 @@
 #jQuery Dropdown Datepicker
 
-**A simple, customisable date select plugin**  
+**A simple, customisable date select plugin.**
+####[Demo](http://icklechris.github.io/jquery-date-dropdowns/)
+
 **Note:** This plugin is effectively still in _beta_. If you use it and it catches fire, put it out and file an accident report.
 
 ##Usage
