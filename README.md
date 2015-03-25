@@ -112,7 +112,7 @@ Specify a classname to add to the widget wrapper
 
 ###Methods
 
-####Destroy
+####destroy
 
 Call the destroy method to undo what was done by the inititalization.
 
