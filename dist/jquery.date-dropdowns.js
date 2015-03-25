@@ -510,6 +510,17 @@
 			}
 
 			return formattedDate;
+		},
+		destroy : function() {
+			var wrapperClass = this.config.wrapperClass;
+			if(this.$element.hasClass(wrapperClass)) {
+				this.$element.empty();
+			} else {
+				var $parent = this.$element.parent();
+				var $select = $parent.find('select');
+				this.$element.unwrap();
+				$select.remove();
+			}
 		}
 	});
 
@@ -517,11 +528,20 @@
 	// preventing against multiple instantiations
 	$.fn[ pluginName ] = function ( options ) {
 		this.each(function() {
-			if ( !$.data( this, "plugin_" + pluginName ) ) {
-				$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
-			}
+			if(typeof options === 'string') {
+				var args = Array.prototype.slice.call(arguments, 1);
+				var plugin = $.data(this, 'plugin_' + pluginName);
+				if(typeof plugin === "undefined") {
+					$.error('Please initialize the plugin before calling this method.');
+					return false;
+				}
+				plugin[options].apply(plugin, args);
+			} else {
+				if ( !$.data( this, "plugin_" + pluginName ) ) {
+					$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+				}
+			}			
 		});
-
 		// chain jQuery functions
 		return this;
 	};

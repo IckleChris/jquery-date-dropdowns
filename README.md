@@ -110,6 +110,18 @@ Specify a classname to add to the widget wrapper
 
 ---
 
+###Methods
+
+####destroy
+
+Call the destroy method to undo what was done by the inititalization.
+
+Example :
+
+```js
+$("#date-dropdown").dateDropdowns('destroy');
+```
+
 ###To Come
 - Ability to specify relative dates as default values (e.g. `today`, `+1 week` or `my wedding anniversary`).
 - Ability to pass an instantiated `date()` object as a default value
