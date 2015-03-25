@@ -126,7 +126,7 @@ $("#date-dropdown").dateDropdowns('destroy');
 Feel free to submit any fixes or propose any additional functionality via pull request or issue, making sure any changes take place in `/src`. Any code changes must pass the JSHint validation, and where possible also update the minified file.
 
 ####Minification and Validation
-Both are automated via Grunt. 
+Both are automated via Grunt. Run `npm_install` to install the required dependencies, then run `grunt` from the root of the project to handle the tasks.
 
 ###To Come
 - Ability to specify relative dates as default values (e.g. `today`, `+1 week` or `my wedding anniversary`).
