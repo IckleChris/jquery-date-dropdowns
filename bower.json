@@ -13,5 +13,11 @@
 		"datepicker",
 		"date-select"
 	],
-	"license": "MIT"
+	"license": "MIT",
+    "ignore": [
+      "/src"
+    ],
+    "dependencies": {
+      "jquery": ">=1.4"
+    }
 }
