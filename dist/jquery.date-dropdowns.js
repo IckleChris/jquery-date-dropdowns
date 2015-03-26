@@ -141,10 +141,6 @@
 			this.internals.objectRefs.yearDropdown = $yearDropdown;
 
 			return true;
-
-			//this.internals.objectRefs.pluginWrapper.append($dayDropdown)
-			//		 .append($monthDropdown)
-			//		 .append($yearDropdown);
 		},
 
 		/**
@@ -207,7 +203,9 @@
 					newDate = pluginHandle.formatSubmitDate(day, month, year);
 
 					objectRefs.hiddenField.val(newDate);
-				}
+				} else {
+                    objectRefs.hiddenField.val("");
+                }
 			});
 		},
 

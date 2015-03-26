@@ -195,6 +195,9 @@
 					objectRefs.dayDropdown.removeClass("invalid");
 				}
 
+                // Empty the hidden field after each change
+                objectRefs.hiddenField.val("");
+
 				// Only format the submit date if a full date has been selected
 				if (!invalidDate && (day * month * year !== 0)) {
 					newDate = pluginHandle.formatSubmitDate(day, month, year);
