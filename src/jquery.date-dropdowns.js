@@ -22,14 +22,14 @@
 
     // The actual plugin constructor
     function Plugin (element, options) {
-        this.element = element;									// Element handle
-        this.$element = $(element);								// jQuery element handle
-        this.config = $.extend({}, pluginDefaults, options);	// Plugin options
-        this.internals = {										// Internal variables
-            objectRefs: {}										// Generated element references
+        this.element = element;                                 // Element handle
+        this.$element = $(element);                             // jQuery element handle
+        this.config = $.extend({}, pluginDefaults, options);    // Plugin options
+        this.internals = {                                      // Internal variables
+            objectRefs: {}
         };
-        this._defaults = pluginDefaults;						// Reference to the plugin defaults
-        this._name = pluginName;								// Reference to the plugin name
+        this._defaults = pluginDefaults;                        // Reference to the plugin defaults
+        this._name = pluginName;                                // Reference to the plugin name
         this.init();
 
         return this;
