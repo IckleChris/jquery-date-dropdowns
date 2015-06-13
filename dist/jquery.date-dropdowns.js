@@ -7,548 +7,553 @@
  */
 ;(function ($, window, document, undefined) {
 
-	"use strict";
+    "use strict";
 
-	// Create the defaults once
-	var pluginName = "dateDropdowns",
-		pluginDefaults = {
-			defaultDate: null,
-			defaultDateFormat: "yyyy-mm-dd",
-			displayFormat: "dmy",
-			submitFormat: "yyyy-mm-dd",
-			minAge: 0,
-			maxAge: 120,
-			minYear: null,
-			maxYear: null,
-			submitFieldName: "date",
-			wrapperClass: "date-dropdowns",
-			daySuffixes: true,
-			monthSuffixes: true,
-			monthFormat: "long"
-		};
+    // Create the defaults once
+    var pluginName = "dateDropdowns",
+        pluginDefaults = {
+            defaultDate: null,
+            defaultDateFormat: "yyyy-mm-dd",
+            displayFormat: "dmy",
+            submitFormat: "yyyy-mm-dd",
+            minAge: 0,
+            maxAge: 120,
+            minYear: null,
+            maxYear: null,
+            submitFieldName: "date",
+            wrapperClass: "date-dropdowns",
+            daySuffixes: true,
+            monthSuffixes: true,
+            monthFormat: "long"
+        };
 
-	// The actual plugin constructor
-	function Plugin (element, options) {
-		this.element = element;									// Element handle
-		this.$element = $(element);								// jQuery element handle
-		this.config = $.extend({}, pluginDefaults, options);	// Plugin options
-		this.internals = {										// Internal variables
-			objectRefs: {}										// Generated element references
-		};
-		this._defaults = pluginDefaults;						// Reference to the plugin defaults
-		this._name = pluginName;								// Reference to the plugin name
-		this.init();
+    // The actual plugin constructor
+    function Plugin (element, options) {
+        this.element = element;									// Element handle
+        this.$element = $(element);								// jQuery element handle
+        this.config = $.extend({}, pluginDefaults, options);	// Plugin options
+        this.internals = {										// Internal variables
+            objectRefs: {}										// Generated element references
+        };
+        this._defaults = pluginDefaults;						// Reference to the plugin defaults
+        this._name = pluginName;								// Reference to the plugin name
+        this.init();
 
-		return this;
-	}
+        return this;
+    }
 
-	// Avoid Plugin.prototype conflicts
-	$.extend(Plugin.prototype, {
+    // Avoid Plugin.prototype conflicts
+    $.extend(Plugin.prototype, {
 
-		/**
-		 * Initialise the plugin
-		 */
-		init: function () {
-			this.checkForDuplicateElement();
-			this.setInternalVariables();
-			this.setupMarkup();
-			this.buildDropdowns();
-			this.attachDropdowns();
-			this.bindChangeEvent();
+        /**
+         * Initialise the plugin
+         */
+        init: function () {
+            this.checkForDuplicateElement();
+            this.setInternalVariables();
+            this.setupMarkup();
+            this.buildDropdowns();
+            this.attachDropdowns();
+            this.bindChangeEvent();
 
-			if (this.config.defaultDate) {
-				this.populateDefaultDate();
-			}
-		},
+            if (this.config.defaultDate) {
+                this.populateDefaultDate();
+            }
+        },
 
-		/**
-		 * Check whether an element exists with the same name attribute. If so, throw an error
-		 */
-		checkForDuplicateElement: function() {
-			if ($("input[name=\"" + this.config.submitFieldName + "\"]").length) {
-				$.error("Duplicate element found");
-				return false;
-			}
+        /**
+         * Check whether an element exists with the same name attribute. If so, throw an error
+         */
+        checkForDuplicateElement: function() {
+            if ($("input[name=\"" + this.config.submitFieldName + "\"]").length) {
+                $.error("Duplicate element found");
+                return false;
+            }
 
-			return true;
-		},
+            return true;
+        },
 
-		/**
-		 * Set the plugin"s internal variables
-		 */
-		setInternalVariables: function() {
-			var date = new Date();
-			this.internals.currentDay = date.getDate();
-			this.internals.currentMonth = date.getMonth() + 1;
-			this.internals.currentYear = date.getFullYear();
-			this.internals.monthShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-			this.internals.monthLong = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		},
+        /**
+         * Set the plugin"s internal variables
+         */
+        setInternalVariables: function() {
+            var date = new Date();
+            this.internals.currentDay = date.getDate();
+            this.internals.currentMonth = date.getMonth() + 1;
+            this.internals.currentYear = date.getFullYear();
+            this.internals.monthShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            this.internals.monthLong = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        },
 
-		/**
-		 * Set the container which will hold the date dropdowns.
-		 *
-		 * - If the element on which the plugin was called is an input of type text or hidden, set it to
-		 *   be hidden and wrap it in a div. This outer div will become the container.
-		 * - If the element was an HTML element (e.g. <div/>), create a hidden text field within it, and use
-		 *   the div as the container.
-		 */
-		setupMarkup: function() {
-			var wrapper, hiddenField;
+        /**
+         * Set the container which will hold the date dropdowns.
+         *
+         * - If the element on which the plugin was called is an input of type text or hidden, set it to
+         *   be hidden and wrap it in a div. This outer div will become the container.
+         * - If the element was an HTML element (e.g. <div/>), create a hidden text field within it, and use
+         *   the div as the container.
+         */
+        setupMarkup: function() {
+            var wrapper, hiddenField;
 
-			if (this.element.tagName.toLowerCase() === "input") {
+            if (this.element.tagName.toLowerCase() === "input") {
 
-				// Configure the input element and wrap
-				hiddenField = this.$element.attr("type", "hidden") // Set to type hidden after development
-					.wrap("<div class=\"" + this.config.wrapperClass + "\"></div>");
+                // Configure the input element and wrap
+                hiddenField = this.$element.attr("type", "hidden") // Set to type hidden after development
+                    .wrap("<div class=\"" + this.config.wrapperClass + "\"></div>");
 
-				wrapper = this.$element.parent();
+                wrapper = this.$element.parent();
 
-			} else {
+            } else {
 
-				// Build a hidden input and set this.$element as the wrapper
-				hiddenField = $("<input/>", {
-					type: "hidden", // Set to type hidden after development
-					name: this.internals.submitFieldName
-				});
+                // Build a hidden input and set this.$element as the wrapper
+                hiddenField = $("<input/>", {
+                    type: "hidden", // Set to type hidden after development
+                    name: this.internals.submitFieldName
+                });
 
-				this.$element.append(hiddenField).addClass(this.config.wrapperClass);
+                this.$element.append(hiddenField).addClass(this.config.wrapperClass);
 
-				wrapper = this.$element;
-			}
+                wrapper = this.$element;
+            }
 
-			// Store a reference to the wrapper and hidden field elements for later use
-			this.internals.objectRefs.pluginWrapper = wrapper;
-			this.internals.objectRefs.hiddenField = hiddenField;
+            // Store a reference to the wrapper and hidden field elements for later use
+            this.internals.objectRefs.pluginWrapper = wrapper;
+            this.internals.objectRefs.hiddenField = hiddenField;
 
-			return true;
-		},
+            return true;
+        },
 
-		/**
-		 * Generate the Day, Month and Year dropdowns
-		 */
-		buildDropdowns: function() {
-			var $dayDropdown, $monthDropdown, $yearDropdown;
+        /**
+         * Generate the Day, Month and Year dropdowns
+         */
+        buildDropdowns: function() {
+            var $dayDropdown, $monthDropdown, $yearDropdown;
 
-			// Build the day dropdown element
-			$dayDropdown = this.buildDayDropdown();
-			this.internals.objectRefs.dayDropdown = $dayDropdown;
+            // Build the day dropdown element
+            $dayDropdown = this.buildDayDropdown();
+            this.internals.objectRefs.dayDropdown = $dayDropdown;
 
-			$monthDropdown = this.buildMonthDropdown();
-			this.internals.objectRefs.monthDropdown = $monthDropdown;
+            $monthDropdown = this.buildMonthDropdown();
+            this.internals.objectRefs.monthDropdown = $monthDropdown;
 
-			$yearDropdown = this.buildYearDropdown();
-			this.internals.objectRefs.yearDropdown = $yearDropdown;
+            $yearDropdown = this.buildYearDropdown();
+            this.internals.objectRefs.yearDropdown = $yearDropdown;
 
-			return true;
-		},
+            return true;
 
-		/**
-		 * Attach the generated dropdowns to the container
-		 */
-		attachDropdowns: function() {
-			var $element = this.internals.objectRefs.pluginWrapper,
-				$daySelect = this.internals.objectRefs.dayDropdown,
-				$monthSelect = this.internals.objectRefs.monthDropdown,
-				$yearSelect = this.internals.objectRefs.yearDropdown;
+            //this.internals.objectRefs.pluginWrapper.append($dayDropdown)
+            //		 .append($monthDropdown)
+            //		 .append($yearDropdown);
+        },
 
-			switch (this.config.displayFormat) {
-				case "mdy":
-					$element.append($monthSelect, $daySelect, $yearSelect);
-					break;
-				case "ymd":
-					$element.append($yearSelect, $monthSelect, $daySelect);
-					break;
-				case "dmy":
-				default:
-					$element.append($daySelect, $monthSelect, $yearSelect);
-					break;
-			}
+        /**
+         * Attach the generated dropdowns to the container
+         */
+        attachDropdowns: function() {
+            var $element = this.internals.objectRefs.pluginWrapper,
+                $daySelect = this.internals.objectRefs.dayDropdown,
+                $monthSelect = this.internals.objectRefs.monthDropdown,
+                $yearSelect = this.internals.objectRefs.yearDropdown;
 
-			return true;
-		},
+            switch (this.config.displayFormat) {
+                case "mdy":
+                    $element.append($monthSelect, $daySelect, $yearSelect);
+                    break;
+                case "ymd":
+                    $element.append($yearSelect, $monthSelect, $daySelect);
+                    break;
+                case "dmy":
+                default:
+                    $element.append($daySelect, $monthSelect, $yearSelect);
+                    break;
+            }
 
-		/**
-		 * Bind the change event to the generated dropdowns
-		 */
-		bindChangeEvent: function() {
-			var $daySelect = this.internals.objectRefs.dayDropdown,
-				$monthSelect = this.internals.objectRefs.monthDropdown,
-				$yearSelect = this.internals.objectRefs.yearDropdown,
-				pluginHandle = this,
-				objectRefs = this.internals.objectRefs;
+            return true;
+        },
 
-			objectRefs.pluginWrapper.on("change", "select", function() {
-				var day = $daySelect.val(),
-					month = $monthSelect.val(),
-					year = $yearSelect.val(),
-					invalidDate = true,
-					newDate;
+        /**
+         * Bind the change event to the generated dropdowns
+         */
+        bindChangeEvent: function() {
+            var $daySelect = this.internals.objectRefs.dayDropdown,
+                $monthSelect = this.internals.objectRefs.monthDropdown,
+                $yearSelect = this.internals.objectRefs.yearDropdown,
+                pluginHandle = this,
+                objectRefs = this.internals.objectRefs;
 
-				// Find out whether the change has made the date invalid (e.g. 31st Feb)
-				invalidDate = pluginHandle.checkDate(day, month, year);
+            objectRefs.pluginWrapper.on("change", "select", function() {
+                var day = $daySelect.val(),
+                    month = $monthSelect.val(),
+                    year = $yearSelect.val(),
+                    invalidDate = true,
+                    newDate;
 
-				// If invalid - add an error class to the day dropdown and return
-				if (invalidDate) {
-					objectRefs.dayDropdown.addClass("invalid");
-					return false;
-				}
+                // Find out whether the change has made the date invalid (e.g. 31st Feb)
+                invalidDate = pluginHandle.checkDate(day, month, year);
 
-				if ("00" !== objectRefs.dayDropdown.val()) {
-					objectRefs.dayDropdown.removeClass("invalid");
-				}
-
-				// Only format the submit date if a full date has been selected
-				if (!invalidDate && (day * month * year !== 0)) {
-					newDate = pluginHandle.formatSubmitDate(day, month, year);
-
-					objectRefs.hiddenField.val(newDate);
-				} else {
-                    objectRefs.hiddenField.val("");
+                // If invalid - add an error class to the day dropdown and return
+                if (invalidDate) {
+                    objectRefs.dayDropdown.addClass("invalid");
+                    return false;
                 }
-			});
-		},
 
-		/**
-		 * Take a provided default date and populate both the hidden field and the
-		 * dropdown elements with the relevant formatted values
-		 *
-		 * @returns {boolean}
-		 */
-		populateDefaultDate: function() {
-			var date    = this.config.defaultDate,
-				parts   = [],
-				day     = "00",
-				month   = "00",
-				year    = "0000";
+                if ("00" !== objectRefs.dayDropdown.val()) {
+                    objectRefs.dayDropdown.removeClass("invalid");
+                }
 
-			switch (this.config.defaultDateFormat) {
-				case "yyyy-mm-dd":
-				default:
-					parts = date.split("-");
-					day = parts[2];
-					month = parts[1];
-					year = parts[0];
-					break;
+                // Empty the hidden field after each change
+                objectRefs.hiddenField.val("");
 
-				case "dd/mm/yyyy":
-					parts = date.split("/");
-					day = parts[0];
-					month = parts[1];
-					year = parts[2];
-					break;
+                // Only format the submit date if a full date has been selected
+                if (!invalidDate && (day * month * year !== 0)) {
+                    newDate = pluginHandle.formatSubmitDate(day, month, year);
 
-				case "mm/dd/yyyy":
-					parts = date.split("/");
-					day = parts[1];
-					month = parts[0];
-					year = parts[2];
-					break;
-			}
+                    objectRefs.hiddenField.val(newDate);
+                }
+            });
+        },
 
-			// Set the values on the dropdowns
-			this.internals.objectRefs.dayDropdown.val(day);
-			this.internals.objectRefs.monthDropdown.val(month);
-			this.internals.objectRefs.yearDropdown.val(year);
-			this.internals.objectRefs.hiddenField.val(date);
+        /**
+         * Take a provided default date and populate both the hidden field and the
+         * dropdown elements with the relevant formatted values
+         *
+         * @returns {boolean}
+         */
+        populateDefaultDate: function() {
+            var date    = this.config.defaultDate,
+                parts   = [],
+                day     = "00",
+                month   = "00",
+                year    = "0000";
 
-			if (true === this.checkDate(day, month, year)) {
-				this.internals.objectRefs.dayDropdown.addClass("invalid");
-			}
+            switch (this.config.defaultDateFormat) {
+                case "yyyy-mm-dd":
+                default:
+                    parts = date.split("-");
+                    day = parts[2];
+                    month = parts[1];
+                    year = parts[0];
+                    break;
 
-			return true;
-		},
+                case "dd/mm/yyyy":
+                    parts = date.split("/");
+                    day = parts[0];
+                    month = parts[1];
+                    year = parts[2];
+                    break;
 
-		/**
-		 * Build a generic dropdown element
-		 *
-		 * @param type
-		 * @returns {*|HTMLElement}
-		 */
-		buildBaseDropdown: function(type) {
-			return $("<select></select>", {
-				class: type,
-				name: this.config.submitFieldName + "_[" + type + "]"
-			});
-		},
+                case "mm/dd/yyyy":
+                    parts = date.split("/");
+                    day = parts[1];
+                    month = parts[0];
+                    year = parts[2];
+                    break;
+            }
 
-		/**
-		 * Build the day dropdown element
-		 *
-		 * @returns {*|HTMLElement}
-		 */
-		buildDayDropdown: function() {
-			var day,
-				dropdown = this.buildBaseDropdown("day");
+            // Set the values on the dropdowns
+            this.internals.objectRefs.dayDropdown.val(day);
+            this.internals.objectRefs.monthDropdown.val(month);
+            this.internals.objectRefs.yearDropdown.val(year);
+            this.internals.objectRefs.hiddenField.val(date);
 
-			$("<option value=\"00\">Day</option>").appendTo(dropdown);
+            if (true === this.checkDate(day, month, year)) {
+                this.internals.objectRefs.dayDropdown.addClass("invalid");
+            }
 
-			// Days 1-9
-			for (var i = 1;  i < 10; i++) {
-				if (this.config.daySuffixes) {
-					day = i + this.getSuffix(i);
-				} else {
-					day = "0" + i;
-				}
-				$("<option value=\"0" + i + "\">" + day + "</option>").appendTo(dropdown);
-			}
+            return true;
+        },
 
-			// Days 10-31
-			for (var j = 10;  j <= 31; j++) {
-				day = j;
+        /**
+         * Build a generic dropdown element
+         *
+         * @param type
+         * @returns {*|HTMLElement}
+         */
+        buildBaseDropdown: function(type) {
+            return $("<select></select>", {
+                class: type,
+                name: this.config.submitFieldName + "_[" + type + "]"
+            });
+        },
 
-				if (this.config.daySuffixes) {
-					day = j + this.getSuffix(j);
-				}
+        /**
+         * Build the day dropdown element
+         *
+         * @returns {*|HTMLElement}
+         */
+        buildDayDropdown: function() {
+            var day,
+                dropdown = this.buildBaseDropdown("day");
 
-				$("<option value=\"" + j + "\">" + day + "</option>").appendTo(dropdown);
-			}
+            $("<option value=\"00\">Day</option>").appendTo(dropdown);
 
-			return dropdown;
-		},
+            // Days 1-9
+            for (var i = 1;  i < 10; i++) {
+                if (this.config.daySuffixes) {
+                    day = i + this.getSuffix(i);
+                } else {
+                    day = "0" + i;
+                }
+                $("<option value=\"0" + i + "\">" + day + "</option>").appendTo(dropdown);
+            }
 
-		/**
-		 * Build the month dropdown element
-		 *
-		 * @returns {*|HTMLElement}
-		 */
-		buildMonthDropdown: function() {
-			var dropdown = this.buildBaseDropdown("month");
+            // Days 10-31
+            for (var j = 10;  j <= 31; j++) {
+                day = j;
 
-			$("<option value=\"00\">Month</option>").appendTo(dropdown);
+                if (this.config.daySuffixes) {
+                    day = j + this.getSuffix(j);
+                }
 
-			// Populate the month values
-			for (var monthNo = 1; monthNo <= 12; monthNo++) {
+                $("<option value=\"" + j + "\">" + day + "</option>").appendTo(dropdown);
+            }
 
-				var month;
+            return dropdown;
+        },
 
-				switch (this.config.monthFormat) {
-					case "short":
-						month = this.internals.monthShort[monthNo - 1];
-						break;
-					case "long":
-						month = this.internals.monthLong[monthNo - 1];
-						break;
-					case "numeric":
-						month = monthNo;
+        /**
+         * Build the month dropdown element
+         *
+         * @returns {*|HTMLElement}
+         */
+        buildMonthDropdown: function() {
+            var dropdown = this.buildBaseDropdown("month");
 
-						if (this.config.monthSuffixes) {
-							month += this.getSuffix(monthNo);
-						}
-						break;
-				}
+            $("<option value=\"00\">Month</option>").appendTo(dropdown);
 
-				if (monthNo < 10) {
-					monthNo = "0" + monthNo;
-				}
+            // Populate the month values
+            for (var monthNo = 1; monthNo <= 12; monthNo++) {
 
-				$("<option value=\"" + monthNo + "\">" + month + "</option>").appendTo(dropdown);
-			}
+                var month;
 
-			return dropdown;
-		},
+                switch (this.config.monthFormat) {
+                    case "short":
+                        month = this.internals.monthShort[monthNo - 1];
+                        break;
+                    case "long":
+                        month = this.internals.monthLong[monthNo - 1];
+                        break;
+                    case "numeric":
+                        month = monthNo;
 
-		/**
-		 * Build the year dropdown element.
-		 *
-		 * By default minYear and maxYear are null, however if provided they take precedence over
-		 * the minAge and maxAge values.
-		 *
-		 * @returns {*|HTMLElement}
-		 */
-		buildYearDropdown: function() {
-			var minYear = this.config.minYear,
-				maxYear = this.config.maxYear,
-				dropdown = this.buildBaseDropdown("year");
+                        if (this.config.monthSuffixes) {
+                            month += this.getSuffix(monthNo);
+                        }
+                        break;
+                }
 
-			$("<option value=\"0000\">Year</option>").appendTo(dropdown);
+                if (monthNo < 10) {
+                    monthNo = "0" + monthNo;
+                }
 
-			if (!minYear) {
-				minYear = this.internals.currentYear - (this.config.maxAge + 1);
-			}
+                $("<option value=\"" + monthNo + "\">" + month + "</option>").appendTo(dropdown);
+            }
 
-			if (!maxYear) {
-				maxYear = this.internals.currentYear - this.config.minAge;
-			}
+            return dropdown;
+        },
 
-			for (var i = maxYear; i >= minYear; i--) {
-				$("<option value=\"" + i + "\">" + i + "</option>").appendTo(dropdown);
-			}
+        /**
+         * Build the year dropdown element.
+         *
+         * By default minYear and maxYear are null, however if provided they take precedence over
+         * the minAge and maxAge values.
+         *
+         * @returns {*|HTMLElement}
+         */
+        buildYearDropdown: function() {
+            var minYear = this.config.minYear,
+                maxYear = this.config.maxYear,
+                dropdown = this.buildBaseDropdown("year");
 
-			return dropdown;
-		},
+            $("<option value=\"0000\">Year</option>").appendTo(dropdown);
 
-		/**
-		 * Get the relevant suffix for a day/month number
-		 *
-		 * @param number
-		 * @returns {string}
-		 */
-		getSuffix: function(number) {
-			var suffix = "";
+            if (!minYear) {
+                minYear = this.internals.currentYear - (this.config.maxAge + 1);
+            }
 
-			switch (number % 10){
-				case 1:
-					suffix = (number % 100 === 11) ? "th" : "st";
-					break;
-				case 2:
-					suffix = (number % 100 === 12) ? "th" : "nd";
-					break;
-				case 3:
-					suffix = (number % 100 === 13) ? "th" : "rd";
-					break;
-				default:
-					suffix = "th";
-					break;
-			}
+            if (!maxYear) {
+                maxYear = this.internals.currentYear - this.config.minAge;
+            }
 
-			return suffix;
-		},
+            for (var i = maxYear; i >= minYear; i--) {
+                $("<option value=\"" + i + "\">" + i + "</option>").appendTo(dropdown);
+            }
 
-		/**
-		 * Check whether the date entered is invalid, e.g. 31st Feb
-		 *
-		 * @param day
-		 * @param month
-		 * @param year
-		 * @returns {boolean}
-		 */
-		checkDate: function(day, month, year) {
-			var invalidDate;
+            return dropdown;
+        },
 
-			if (month !== "00") {
-				var numDaysInMonth = (new Date(year, month, 0).getDate()),
-					selectedDayInt = parseInt(day, 10);
+        /**
+         * Get the relevant suffix for a day/month number
+         *
+         * @param number
+         * @returns {string}
+         */
+        getSuffix: function(number) {
+            var suffix = "";
 
-				invalidDate = this.updateDayOptions(numDaysInMonth, selectedDayInt);
+            switch (number % 10){
+                case 1:
+                    suffix = (number % 100 === 11) ? "th" : "st";
+                    break;
+                case 2:
+                    suffix = (number % 100 === 12) ? "th" : "nd";
+                    break;
+                case 3:
+                    suffix = (number % 100 === 13) ? "th" : "rd";
+                    break;
+                default:
+                    suffix = "th";
+                    break;
+            }
 
-				// If the date is invalid, empty the hidden field to prevent invalid submissions
-				if (invalidDate) {
-					this.internals.objectRefs.hiddenField.val("");
-				}
-			}
+            return suffix;
+        },
 
-			return invalidDate;
-		},
+        /**
+         * Check whether the date entered is invalid, e.g. 31st Feb
+         *
+         * @param day
+         * @param month
+         * @param year
+         * @returns {boolean}
+         */
+        checkDate: function(day, month, year) {
+            var invalidDate;
 
-		/**
-		 * Update the day options available based on the month now selected
-		 *
-		 * @param numDaysInMonth
-		 * @param selectedDayInt
-		 * @returns {boolean}
-		 */
-		updateDayOptions: function(numDaysInMonth, selectedDayInt) {
-			var lastDayOption = parseInt(this.internals.objectRefs.dayDropdown.children(":last").val(), 10),
-				newDayOption = "",
-				newDayText = "",
-				invalidDay = false;
+            if (month !== "00") {
+                var numDaysInMonth = (new Date(year, month, 0).getDate()),
+                    selectedDayInt = parseInt(day, 10);
 
-			// If the selected month has less days than the Day dropdown currently contains - remove the extra days
-			if (lastDayOption > numDaysInMonth) {
+                invalidDate = this.updateDayOptions(numDaysInMonth, selectedDayInt);
 
-				while (lastDayOption > numDaysInMonth) {
-					this.internals.objectRefs.dayDropdown.children(":last").remove();
-					lastDayOption--;
-				}
+                // If the date is invalid, empty the hidden field to prevent invalid submissions
+                if (invalidDate) {
+                    this.internals.objectRefs.hiddenField.val("");
+                }
+            }
 
-				// If the user-selected day is removed, indicate this so a message can be shown to the user
-				if (selectedDayInt > numDaysInMonth) {
-					invalidDay = true;
-				}
+            return invalidDate;
+        },
 
-				// If the month contains more days than the Day dropdown contains - add the missing options
-			} else if (lastDayOption < numDaysInMonth) {
+        /**
+         * Update the day options available based on the month now selected
+         *
+         * @param numDaysInMonth
+         * @param selectedDayInt
+         * @returns {boolean}
+         */
+        updateDayOptions: function(numDaysInMonth, selectedDayInt) {
+            var lastDayOption = parseInt(this.internals.objectRefs.dayDropdown.children(":last").val(), 10),
+                newDayOption = "",
+                newDayText = "",
+                invalidDay = false;
 
-				while (lastDayOption < numDaysInMonth) {
+            // If the selected month has less days than the Day dropdown currently contains - remove the extra days
+            if (lastDayOption > numDaysInMonth) {
 
-					newDayOption = ++lastDayOption;
-					newDayText = newDayOption;
+                while (lastDayOption > numDaysInMonth) {
+                    this.internals.objectRefs.dayDropdown.children(":last").remove();
+                    lastDayOption--;
+                }
 
-					// Add the suffix if required
-					if (this.config.daySuffixes) {
-						newDayText += this.getSuffix(lastDayOption);
-					}
+                // If the user-selected day is removed, indicate this so a message can be shown to the user
+                if (selectedDayInt > numDaysInMonth) {
+                    invalidDay = true;
+                }
 
-					// Build the option and append to the dropdown
-					$("<option></option>")
-						.attr("value", newDayOption)
-						.text(newDayText)
-						.appendTo(this.internals.objectRefs.dayDropdown);
-				}
-			}
+                // If the month contains more days than the Day dropdown contains - add the missing options
+            } else if (lastDayOption < numDaysInMonth) {
 
-			return invalidDay;
-		},
+                while (lastDayOption < numDaysInMonth) {
 
-		/**
-		 * Format the selected date based on the submitFormat config value provided
-		 *
-		 * @param day
-		 * @param month
-		 * @param year
-		 * @returns {*}
-		 */
-		formatSubmitDate: function(day, month, year) {
-			var formattedDate;
+                    newDayOption = ++lastDayOption;
+                    newDayText = newDayOption;
 
-			switch (this.config.submitFormat) {
-				case "yyyy-mm-dd":
-				default:
-					formattedDate = year + "-" + month + "-" + day;
-					break;
+                    // Add the suffix if required
+                    if (this.config.daySuffixes) {
+                        newDayText += this.getSuffix(lastDayOption);
+                    }
 
-				case "mm/dd/yyyy":
-					formattedDate = month + "/" + day + "/" + year;
-					break;
+                    // Build the option and append to the dropdown
+                    $("<option></option>")
+                        .attr("value", newDayOption)
+                        .text(newDayText)
+                        .appendTo(this.internals.objectRefs.dayDropdown);
+                }
+            }
 
-				case "dd/mm/yyyy":
-					formattedDate = day + "/" + month + "/" + year;
-					break;
-			}
+            return invalidDay;
+        },
 
-			return formattedDate;
-		},
+        /**
+         * Format the selected date based on the submitFormat config value provided
+         *
+         * @param day
+         * @param month
+         * @param year
+         * @returns {*}
+         */
+        formatSubmitDate: function(day, month, year) {
+            var formattedDate;
 
-		/**
-		 * Revert the changes applied by the plugin on the specified element
-		 */
-		destroy: function() {
-			var wrapperClass = this.config.wrapperClass;
+            switch (this.config.submitFormat) {
+                case "yyyy-mm-dd":
+                default:
+                    formattedDate = year + "-" + month + "-" + day;
+                    break;
 
-			if (this.$element.hasClass(wrapperClass)) {
-				this.$element.empty();
-			} else {
-				var $parent = this.$element.parent(),
-					$select = $parent.find("select");
+                case "mm/dd/yyyy":
+                    formattedDate = month + "/" + day + "/" + year;
+                    break;
 
-				this.$element.unwrap();
-				$select.remove();
-			}
-		}
-	});
+                case "dd/mm/yyyy":
+                    formattedDate = day + "/" + month + "/" + year;
+                    break;
+            }
 
-	// A really lightweight plugin wrapper around the constructor,
-	// preventing against multiple instantiations
-	$.fn[ pluginName ] = function ( options ) {
-		this.each(function() {
-			if(typeof options === "string") {
-				var args = Array.prototype.slice.call(arguments, 1);
-				var plugin = $.data(this, "plugin_" + pluginName);
+            return formattedDate;
+        },
 
-				if (typeof plugin === "undefined") {
-					$.error("Please initialize the plugin before calling this method.");
-					return false;
-				}
-				plugin[options].apply(plugin, args);
-			} else {
-				if ( !$.data( this, "plugin_" + pluginName ) ) {
-					$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
-				}
-			}
-		});
-		// chain jQuery functions
-		return this;
-	};
+        /**
+         * Revert the changes applied by the plugin on the specified element
+         */
+        destroy: function() {
+            var wrapperClass = this.config.wrapperClass;
+
+            if (this.$element.hasClass(wrapperClass)) {
+                this.$element.empty();
+            } else {
+                var $parent = this.$element.parent(),
+                    $select = $parent.find("select");
+
+                this.$element.unwrap();
+                $select.remove();
+            }
+        }
+    });
+
+    // A really lightweight plugin wrapper around the constructor,
+    // preventing against multiple instantiations
+    $.fn[ pluginName ] = function ( options ) {
+        this.each(function() {
+            if(typeof options === "string") {
+                var args = Array.prototype.slice.call(arguments, 1);
+                var plugin = $.data(this, "plugin_" + pluginName);
+
+                if (typeof plugin === "undefined") {
+                    $.error("Please initialize the plugin before calling this method.");
+                    return false;
+                }
+                plugin[options].apply(plugin, args);
+            } else {
+                if ( !$.data( this, "plugin_" + pluginName ) ) {
+                    $.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+                }
+            }
+        });
+        // chain jQuery functions
+        return this;
+    };
 
 })( jQuery, window, document );
