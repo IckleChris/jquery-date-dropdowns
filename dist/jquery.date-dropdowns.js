@@ -1,5 +1,5 @@
 /*
- *  jQuery Date Dropdowns - v0.1.0
+ *  jQuery Date Dropdowns - v1.0.0
  *  A simple, customisable date select plugin
  *
  *  Made by Chris Brown

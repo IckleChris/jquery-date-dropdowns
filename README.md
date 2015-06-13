@@ -1,16 +1,19 @@
 #jQuery Dropdown Datepicker
 
-**A simple, customisable date select plugin.**
+**A simple date select plugin.**
 ####[Demo](http://icklechris.github.io/jquery-date-dropdowns/)
 
-**Note:** This plugin is effectively still in _beta_. If you use it and it catches fire, put it out and file an accident report.
+##Installation
+####Bower
+`bower install -S jquery-date-dropdowns`
 
 ##Usage
 ####Instantiation
 
-     $("#date_of_birth").dateDropdowns({
-         configOption: configValue
-     });
+```js
+ $("#date_of_birth").dateDropdowns({
+     configOption: configValue
+ });```
 
 The plugin can be initialised either directly on an input field, or on a container element (e.g. a `<div>`).
 
@@ -114,9 +117,9 @@ Specify a classname to add to the widget wrapper
 
 ####destroy
 
-Call the destroy method to undo what was done by the inititalization.
+Call the destroy method to undo any changes made during the plugin's initialisation.
 
-Example :
+Example:
 
 ```js
 $("#date-dropdown").dateDropdowns('destroy');
