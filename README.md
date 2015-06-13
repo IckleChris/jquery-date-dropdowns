@@ -13,7 +13,8 @@
 ```js
  $("#date_of_birth").dateDropdowns({
      configOption: configValue
- });```
+ });
+```
 
 The plugin can be initialised either directly on an input field, or on a container element (e.g. a `<div>`).
 
