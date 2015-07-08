@@ -219,6 +219,8 @@
 
                     objectRefs.hiddenField.val(newDate);
                 }
+
+	            objectRefs.hiddenField.change();
             });
         },
 
