@@ -255,7 +255,7 @@
 		            parts = new Date();
 		            parts.setTime(date * 1000);
 		            day = parts.getDate();
-		            month = parts.getMonth() + "";
+		            month = (parts.getMonth() + 1) + "";
 		            year = parts.getFullYear();
 
 		            if (month.length < 2) {
@@ -548,7 +548,7 @@
 	            case "unix":
 		            _date = new Date();
 		            _date.setDate(day);
-		            _date.setMonth(month);
+		            _date.setMonth(month - 1);
 		            _date.setYear(year);
 		            formattedDate = Math.round(_date.getTime() / 1000);
             }
