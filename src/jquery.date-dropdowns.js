@@ -256,10 +256,13 @@
 	            case "unix":
 		            parts = new Date();
 		            parts.setTime(date * 1000);
-		            day = parts.getDate();
+		            day = parts.getDate() + "";
 		            month = (parts.getMonth() + 1) + "";
 		            year = parts.getFullYear();
 
+		            if (day.length < 2) {
+			            day = "0" + day;
+		            }
 		            if (month.length < 2) {
 			            month = "0" + month;
 		            }
