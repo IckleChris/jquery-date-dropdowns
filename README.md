@@ -90,6 +90,13 @@ Options: `numeric`, `short`
 
 Specify the format dates should be in when presented to the user
 
+####required
+
+Type: `boolean`  
+Default: `false`
+
+Whether the `required` html5 attribute should be applied to the generated `<select/>` elements
+
 ####submitFieldName
 
 Type: `string`  

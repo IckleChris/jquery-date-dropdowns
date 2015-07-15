@@ -116,6 +116,15 @@ body {
     color: #E9403C;
 }
 
+.example input[type="submit"] {
+    margin-top: 10px;
+}
+
+.example input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: #e5e5e5;
+}
+
 /* Code Blocks */
 pre.code-wrapper {
     padding: 15px 30px;

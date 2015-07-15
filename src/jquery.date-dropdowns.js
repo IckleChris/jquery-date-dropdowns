@@ -17,7 +17,8 @@
             wrapperClass: "date-dropdowns",
             daySuffixes: true,
             monthSuffixes: true,
-            monthFormat: "long"
+            monthFormat: "long",
+            required: false
         };
 
     // The actual plugin constructor
@@ -99,6 +100,7 @@
 	            if (!this.config.defaultDate) {
 		            this.config.defaultDate = this.element.value;
 	            }
+                
                 // Configure the input element and wrap
                 hiddenField = this.$element.attr("type", "hidden") // Set to type hidden after development
                     .wrap("<div class=\"" + this.config.wrapperClass + "\"></div>");
@@ -226,9 +228,9 @@
         populateDefaultDate: function() {
             var date    = this.config.defaultDate,
                 parts   = [],
-                day     = "00",
-                month   = "00",
-                year    = "0000";
+                day     = "",
+                month   = "",
+                year    = "";
 
             switch (this.config.defaultDateFormat) {
                 case "yyyy-mm-dd":
@@ -291,7 +293,8 @@
         buildBaseDropdown: function(type) {
             return $("<select></select>", {
                 class: type,
-                name: this.config.submitFieldName + "_[" + type + "]"
+                name: this.config.submitFieldName + "_[" + type + "]",
+                required: this.config.required
             });
         },
 
@@ -305,7 +308,7 @@
                 dropdown = this.buildBaseDropdown("day"),
 	            option = document.createElement("option");
 
-	        option.setAttribute("value", "00");
+	        option.setAttribute("value", "");
 	        option.appendChild(document.createTextNode(Plugin.message.day));
 	        dropdown.append(option);
 
@@ -347,7 +350,7 @@
             var dropdown = this.buildBaseDropdown("month"),
 	            option = document.createElement("option");
 
-	        option.setAttribute("value", "00");
+	        option.setAttribute("value", "");
 	        option.appendChild(document.createTextNode(Plugin.message.month));
             dropdown.append(option);
 
@@ -399,7 +402,7 @@
                 dropdown = this.buildBaseDropdown("year"),
 	            option = document.createElement("option");
 
-	        option.setAttribute("value", "0000");
+	        option.setAttribute("value", "");
 	        option.appendChild(document.createTextNode(Plugin.message.year));
 	        dropdown.append(option);
 

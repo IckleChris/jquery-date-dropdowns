@@ -103,6 +103,17 @@
 	defaultDateFormat: 'unix'</span>
 });</code></pre>
 			</div>
+
+            <div class="example">
+                <h2>Required</h2>
+                <form>
+                    <div id="example10"></div>
+                    <input type="submit" value="Test Submit">
+                </form>
+<pre class="code-wrapper"><code>$("example10").dateDropdowns({
+    <span class="highlight">required: true</span>
+});</code></pre>
+            </div>
 		</div>
 
 		<script>
@@ -151,6 +162,11 @@
 					submitFormat: 'unix',
 					defaultDateFormat: 'unix'
 				});
+
+                $("#example10").dateDropdowns({
+                    submitFieldName: 'example7',
+                    required: true
+                });
 
 				// Set all hidden fields to type text for the demo
 				$('input[type="hidden"]').attr('type', 'text').attr('readonly', 'readonly');				
