@@ -42,6 +42,12 @@
         return this;
     }
 
+	Plugin.message = {
+		day: "Day",
+		month: "Month",
+		year: "Year"
+	};
+
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
 
@@ -97,7 +103,9 @@
             var wrapper, hiddenField;
 
             if (this.element.tagName.toLowerCase() === "input") {
-
+	            if (!this.config.defaultDate) {
+		            this.config.defaultDate = this.element.value;
+	            }
                 // Configure the input element and wrap
                 hiddenField = this.$element.attr("type", "hidden") // Set to type hidden after development
                     .wrap("<div class=\"" + this.config.wrapperClass + "\"></div>");
@@ -211,6 +219,8 @@
 
                     objectRefs.hiddenField.val(newDate);
                 }
+
+	            objectRefs.hiddenField.change();
             });
         },
 
@@ -249,6 +259,21 @@
                     month = parts[0];
                     year = parts[2];
                     break;
+
+	            case "unix":
+		            parts = new Date();
+		            parts.setTime(date * 1000);
+		            day = parts.getDate() + "";
+		            month = (parts.getMonth() + 1) + "";
+		            year = parts.getFullYear();
+
+		            if (day.length < 2) {
+			            day = "0" + day;
+		            }
+		            if (month.length < 2) {
+			            month = "0" + month;
+		            }
+		            break;
             }
 
             // Set the values on the dropdowns
@@ -284,9 +309,12 @@
          */
         buildDayDropdown: function() {
             var day,
-                dropdown = this.buildBaseDropdown("day");
+                dropdown = this.buildBaseDropdown("day"),
+	            option = document.createElement("option");
 
-            $("<option value=\"00\">Day</option>").appendTo(dropdown);
+	        option.setAttribute("value", "00");
+	        option.appendChild(document.createTextNode(Plugin.message.day));
+	        dropdown.append(option);
 
             // Days 1-9
             for (var i = 1;  i < 10; i++) {
@@ -295,7 +323,10 @@
                 } else {
                     day = "0" + i;
                 }
-                $("<option value=\"0" + i + "\">" + day + "</option>").appendTo(dropdown);
+	            option = document.createElement("option");
+	            option.setAttribute("value", "0" + i);
+	            option.appendChild(document.createTextNode(day));
+	            dropdown.append(option);
             }
 
             // Days 10-31
@@ -305,8 +336,10 @@
                 if (this.config.daySuffixes) {
                     day = j + this.getSuffix(j);
                 }
-
-                $("<option value=\"" + j + "\">" + day + "</option>").appendTo(dropdown);
+	            option = document.createElement("option");
+	            option.setAttribute("value", j);
+	            option.appendChild(document.createTextNode(day));
+	            dropdown.append(option);
             }
 
             return dropdown;
@@ -318,9 +351,12 @@
          * @returns {*|HTMLElement}
          */
         buildMonthDropdown: function() {
-            var dropdown = this.buildBaseDropdown("month");
+            var dropdown = this.buildBaseDropdown("month"),
+	            option = document.createElement("option");
 
-            $("<option value=\"00\">Month</option>").appendTo(dropdown);
+	        option.setAttribute("value", "00");
+	        option.appendChild(document.createTextNode(Plugin.message.month));
+            dropdown.append(option);
 
             // Populate the month values
             for (var monthNo = 1; monthNo <= 12; monthNo++) {
@@ -347,7 +383,10 @@
                     monthNo = "0" + monthNo;
                 }
 
-                $("<option value=\"" + monthNo + "\">" + month + "</option>").appendTo(dropdown);
+	            option = document.createElement("option");
+	            option.setAttribute("value", monthNo);
+	            option.appendChild(document.createTextNode(month));
+	            dropdown.append(option);
             }
 
             return dropdown;
@@ -364,9 +403,12 @@
         buildYearDropdown: function() {
             var minYear = this.config.minYear,
                 maxYear = this.config.maxYear,
-                dropdown = this.buildBaseDropdown("year");
+                dropdown = this.buildBaseDropdown("year"),
+	            option = document.createElement("option");
 
-            $("<option value=\"0000\">Year</option>").appendTo(dropdown);
+	        option.setAttribute("value", "0000");
+	        option.appendChild(document.createTextNode(Plugin.message.year));
+	        dropdown.append(option);
 
             if (!minYear) {
                 minYear = this.internals.currentYear - (this.config.maxAge + 1);
@@ -377,7 +419,10 @@
             }
 
             for (var i = maxYear; i >= minYear; i--) {
-                $("<option value=\"" + i + "\">" + i + "</option>").appendTo(dropdown);
+	            option = document.createElement("option");
+	            option.setAttribute("value", i);
+	            option.appendChild(document.createTextNode(i));
+	            dropdown.append(option);
             }
 
             return dropdown;
@@ -476,10 +521,10 @@
                     }
 
                     // Build the option and append to the dropdown
-                    $("<option></option>")
-                        .attr("value", newDayOption)
-                        .text(newDayText)
-                        .appendTo(this.internals.objectRefs.dayDropdown);
+	                var option = document.createElement("option");
+	                option.setAttribute("value", newDayOption);
+	                option.appendChild(document.createTextNode(newDayText));
+	                this.internals.objectRefs.dayDropdown.append(option);
                 }
             }
 
@@ -495,7 +540,8 @@
          * @returns {*}
          */
         formatSubmitDate: function(day, month, year) {
-            var formattedDate;
+            var formattedDate,
+	            _date;
 
             switch (this.config.submitFormat) {
                 case "yyyy-mm-dd":
@@ -510,6 +556,13 @@
                 case "dd/mm/yyyy":
                     formattedDate = day + "/" + month + "/" + year;
                     break;
+
+	            case "unix":
+		            _date = new Date();
+		            _date.setDate(day);
+		            _date.setMonth(month - 1);
+		            _date.setYear(year);
+		            formattedDate = Math.round(_date.getTime() / 1000);
             }
 
             return formattedDate;

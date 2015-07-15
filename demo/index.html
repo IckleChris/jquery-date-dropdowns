@@ -71,6 +71,38 @@
     <span class="highlight">monthFormat: "short"</span>
 });</code></pre>
 			</div>
+
+			<div class="example">
+				<h2>Unix</h2>
+				<div id="example7"></div>
+<pre class="code-wrapper"><code>$("example7").dateDropdowns({
+	<span class="highlight">submitFormat: 'unix',
+	defaultDateFormat: 'unix'</span>
+});</code></pre>
+			</div>
+
+			<div class="example">
+				<h2>Unix Default Date</h2>
+				<div id="example8"></div>
+<pre class="code-wrapper"><code>$("example8").dateDropdowns({
+	<span class="highlight">submitFormat: 'unix',
+	defaultDateFormat: 'unix',
+	defaultDate: 456692066</span>
+});</code></pre>
+			</div>
+
+			<div class="example">
+				<h2>Unix Input Default Date</h2>
+				<input type="text" id="example9" value="456692066">
+<pre class="code-wrapper"><code>&lt;input
+	type="text"
+	id="example9"
+	<span class="highlight">value="456692066"</span>&gt;</code></pre>
+<pre class="code-wrapper"><code>$("example9").dateDropdowns({
+	<span class="highlight">submitFormat: 'unix',
+	defaultDateFormat: 'unix'</span>
+});</code></pre>
+			</div>
 		</div>
 
 		<script>
@@ -100,6 +132,24 @@
 				$("#example6").dateDropdowns({
 					submitFieldName: 'example6',
 					monthFormat: 'short'
+				});
+
+				$("#example7").dateDropdowns({
+					submitFieldName: 'example7',
+					submitFormat: 'unix',
+					defaultDateFormat: 'unix'
+				});
+
+				$("#example8").dateDropdowns({
+					submitFieldName: 'example8',
+					submitFormat: 'unix',
+					defaultDateFormat: 'unix',
+					defaultDate: 456692066
+				});
+
+				$("#example9").dateDropdowns({
+					submitFormat: 'unix',
+					defaultDateFormat: 'unix'
 				});
 
 				// Set all hidden fields to type text for the demo
