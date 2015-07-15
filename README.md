@@ -142,4 +142,5 @@ Both are automated via Grunt. Run `npm_install` to install the required dependen
 ###To Come
 - Ability to specify relative dates as default values (e.g. `today`, `+1 week` or `my wedding anniversary`).
 - Ability to pass an instantiated `date()` object as a default value
+- Similarly formatted time inputs (hours : minutes, optional seconds). This is likely to be a separate file to avoid unnecessary bloat for users who only need date inputs, but a merged version should also be available.
 - And maybe more, who knows..
