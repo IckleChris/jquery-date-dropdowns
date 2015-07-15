@@ -102,7 +102,8 @@
 	            }
                 
                 // Configure the input element and wrap
-                hiddenField = this.$element.attr("type", "hidden") // Set to type hidden after development
+                hiddenField = this.$element.attr("type", "hidden")
+                    .attr("name", this.config.submitFieldName)
                     .wrap("<div class=\"" + this.config.wrapperClass + "\"></div>");
 
                 wrapper = this.$element.parent();
@@ -111,8 +112,8 @@
 
                 // Build a hidden input and set this.$element as the wrapper
                 hiddenField = $("<input/>", {
-                    type: "hidden", // Set to type hidden after development
-                    name: this.internals.submitFieldName
+                    type: "hidden",
+                    name: this.config.submitFieldName
                 });
 
                 this.$element.append(hiddenField).addClass(this.config.wrapperClass);

@@ -159,17 +159,18 @@
 				});
 
 				$("#example9").dateDropdowns({
+                    submitFieldName: 'example9',
 					submitFormat: 'unix',
 					defaultDateFormat: 'unix'
 				});
 
                 $("#example10").dateDropdowns({
-                    submitFieldName: 'example7',
+                    submitFieldName: 'example10',
                     required: true
                 });
 
 				// Set all hidden fields to type text for the demo
-				$('input[type="hidden"]').attr('type', 'text').attr('readonly', 'readonly');				
+				$('input[type="hidden"]').attr('type', 'text').attr('readonly', 'readonly');
 			});
 		</script>
 	</body>
