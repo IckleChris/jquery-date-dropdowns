@@ -53,6 +53,13 @@ Options: `myd`, `ymd`
 
 Specify the order in which the dropdown fields should be rendered. Defaults to Day Month Year
 
+####dropdownClass
+
+Type: `string`  
+Default: `null`  
+
+Set the class attribute of generated dropdown elements
+
 ####maxAge
 
 Type: `int`  
