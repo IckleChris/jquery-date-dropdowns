@@ -15,6 +15,7 @@
             maxYear: null,
             submitFieldName: "date",
             wrapperClass: "date-dropdowns",
+            dropdownClass: null,
             daySuffixes: true,
             monthSuffixes: true,
             monthFormat: "long",
@@ -292,8 +293,14 @@
          * @returns {*|HTMLElement}
          */
         buildBaseDropdown: function(type) {
+            var classString = type;
+
+            if (this.config.dropdownClass) {
+                classString += " " + this.config.dropdownClass;
+            }
+
             return $("<select></select>", {
-                class: type,
+                class: classString,
                 name: this.config.submitFieldName + "_[" + type + "]",
                 required: this.config.required
             });
