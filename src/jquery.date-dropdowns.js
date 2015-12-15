@@ -30,8 +30,6 @@
         this.internals = {                                      // Internal variables
             objectRefs: {}
         };
-        this._defaults = pluginDefaults;                        // Reference to the plugin defaults
-        this._name = pluginName;                                // Reference to the plugin name
         this.init();
 
         return this;
@@ -146,10 +144,6 @@
             this.internals.objectRefs.yearDropdown = $yearDropdown;
 
             return true;
-
-            //this.internals.objectRefs.pluginWrapper.append($dayDropdown)
-            //		 .append($monthDropdown)
-            //		 .append($yearDropdown);
         },
 
         /**
@@ -191,7 +185,7 @@
                 var day = $daySelect.val(),
                     month = $monthSelect.val(),
                     year = $yearSelect.val(),
-                    invalidDate = true,
+                    invalidDate,
                     newDate;
 
                 // Find out whether the change has made the date invalid (e.g. 31st Feb)
@@ -614,3 +608,4 @@
     };
 
 })( jQuery, window, document );
+
