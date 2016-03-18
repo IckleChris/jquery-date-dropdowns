@@ -558,25 +558,20 @@
                 _date;
 
             switch (this.config.submitFormat) {
-                case 'yyyy-mm-dd':
-                default:
-                    formattedDate = year + '-' + month + '-' + day;
-                    break;
-
-                case 'mm/dd/yyyy':
-                    formattedDate = month + '/' + day + '/' + year;
-                    break;
-
-                case 'dd/mm/yyyy':
-                    formattedDate = day + '/' + month + '/' + year;
-                    break;
-
                 case 'unix':
                     _date = new Date();
                     _date.setDate(day);
                     _date.setMonth(month - 1);
                     _date.setYear(year);
                     formattedDate = Math.round(_date.getTime() / 1000);
+                    break;
+
+                default:
+                    formattedDate = this.config.submitFormat
+                        .replace('dd', day)
+                        .replace('mm', month)
+                        .replace('yyyy', year);
+                    break;
             }
 
             return formattedDate;

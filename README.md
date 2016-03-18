@@ -115,9 +115,8 @@ Specify the name attribute for the hidden field that will contain the formatted 
 
 Type: `string`  
 Default: `yyyy-mm-dd`  
-Options: `dd/mm/yyyy`, `mm/dd/yyyy`
 
-Specify the format the submitted date should take
+Specify the format the submitted date should take using `dd`, `mm` and `yyyy` placeholders. For example `dd/mm/yyyy` will render `30/12/2000`
 
 ####wrapperClass
 
