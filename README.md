@@ -109,7 +109,7 @@ Whether the `required` html5 attribute should be applied to the generated `<sele
 Type: `string`  
 Default: `date`  
 
-Specify the name attribute for the hidden field that will contain the formatted date for submission
+Specify the name attribute for the hidden field that will contain the formatted date for submission. **Note:** this will overwrite an existing name attribute on an input element
 
 ####submitFormat
 

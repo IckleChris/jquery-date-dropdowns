@@ -37,8 +37,6 @@
         this.internals = {                                      // Internal variables
             objectRefs: {}
         };
-        this._defaults = pluginDefaults;                        // Reference to the plugin defaults
-        this._name = pluginName;                                // Reference to the plugin name
         this.init();
 
         return this;
@@ -111,8 +109,17 @@
                 
                 // Configure the input element and wrap
                 hiddenField = this.$element.attr("type", "hidden")
-                    .attr("name", this.config.submitFieldName)
                     .wrap("<div class=\"" + this.config.wrapperClass + "\"></div>");
+
+                var customFieldNameProvided = (this.config.submitFieldName !== pluginDefaults.submitFieldName),
+                    fieldHasName = this.element.hasAttribute("name");
+
+                // Set the name attribute of the submit input
+                if (!fieldHasName && !customFieldNameProvided) {
+                    this.$element.attr("name", pluginDefaults.submitFieldName);
+                } else if (customFieldNameProvided) {
+                    this.$element.attr("name", this.config.submitFieldName);
+                }
 
                 wrapper = this.$element.parent();
 
@@ -153,10 +160,6 @@
             this.internals.objectRefs.yearDropdown = $yearDropdown;
 
             return true;
-
-            //this.internals.objectRefs.pluginWrapper.append($dayDropdown)
-            //		 .append($monthDropdown)
-            //		 .append($yearDropdown);
         },
 
         /**
@@ -198,7 +201,7 @@
                 var day = $daySelect.val(),
                     month = $monthSelect.val(),
                     year = $yearSelect.val(),
-                    invalidDate = true,
+                    invalidDate,
                     newDate;
 
                 // Find out whether the change has made the date invalid (e.g. 31st Feb)
@@ -621,3 +624,4 @@
     };
 
 })( jQuery, window, document );
+
