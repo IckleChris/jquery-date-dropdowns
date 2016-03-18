@@ -7,30 +7,30 @@
  */
 ;(function ($, window, document, undefined) {
 
-    "use strict";
+    'use strict';
 
     // Create the defaults once
-    var pluginName = "dateDropdowns",
+    var pluginName = 'dateDropdowns',
         pluginDefaults = {
             defaultDate: null,
-            defaultDateFormat: "yyyy-mm-dd",
-            displayFormat: "dmy",
-            submitFormat: "yyyy-mm-dd",
+            defaultDateFormat: 'yyyy-mm-dd',
+            displayFormat: 'dmy',
+            submitFormat: 'yyyy-mm-dd',
             minAge: 0,
             maxAge: 120,
             minYear: null,
             maxYear: null,
-            submitFieldName: "date",
-            wrapperClass: "date-dropdowns",
+            submitFieldName: 'date',
+            wrapperClass: 'date-dropdowns',
             dropdownClass: null,
             daySuffixes: true,
             monthSuffixes: true,
-            monthFormat: "long",
+            monthFormat: 'long',
             required: false
         };
 
     // The actual plugin constructor
-    function Plugin (element, options) {
+    function Plugin(element, options) {
         this.element = element;                                 // Element handle
         this.$element = $(element);                             // jQuery element handle
         this.config = $.extend({}, pluginDefaults, options);    // Plugin options
@@ -42,11 +42,11 @@
         return this;
     }
 
-	Plugin.message = {
-		day: "Day",
-		month: "Month",
-		year: "Year"
-	};
+    Plugin.message = {
+        day: 'Day',
+        month: 'Month',
+        year: 'Year'
+    };
 
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
@@ -70,9 +70,9 @@
         /**
          * Check whether an element exists with the same name attribute. If so, throw an error
          */
-        checkForDuplicateElement: function() {
-            if ($("input[name=\"" + this.config.submitFieldName + "\"]").length) {
-                $.error("Duplicate element found");
+        checkForDuplicateElement: function () {
+            if ($('input[name="' + this.config.submitFieldName + '"]').length) {
+                $.error('Duplicate element found');
                 return false;
             }
 
@@ -80,15 +80,15 @@
         },
 
         /**
-         * Set the plugin"s internal variables
+         * Set the plugin's internal variables
          */
-        setInternalVariables: function() {
+        setInternalVariables: function () {
             var date = new Date();
             this.internals.currentDay = date.getDate();
             this.internals.currentMonth = date.getMonth() + 1;
             this.internals.currentYear = date.getFullYear();
-            this.internals.monthShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            this.internals.monthLong = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            this.internals.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            this.internals.monthLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         },
 
         /**
@@ -99,26 +99,26 @@
          * - If the element was an HTML element (e.g. <div/>), create a hidden text field within it, and use
          *   the div as the container.
          */
-        setupMarkup: function() {
+        setupMarkup: function () {
             var wrapper, hiddenField;
 
-            if (this.element.tagName.toLowerCase() === "input") {
-	            if (!this.config.defaultDate) {
-		            this.config.defaultDate = this.element.value;
-	            }
-                
+            if (this.element.tagName.toLowerCase() === 'input') {
+                if (!this.config.defaultDate) {
+                    this.config.defaultDate = this.element.value;
+                }
+
                 // Configure the input element and wrap
-                hiddenField = this.$element.attr("type", "hidden")
-                    .wrap("<div class=\"" + this.config.wrapperClass + "\"></div>");
+                hiddenField = this.$element.attr('type', 'hidden')
+                    .wrap('<div class="' + this.config.wrapperClass + '"></div>');
 
                 var customFieldNameProvided = (this.config.submitFieldName !== pluginDefaults.submitFieldName),
-                    fieldHasName = this.element.hasAttribute("name");
+                    fieldHasName = this.element.hasAttribute('name');
 
                 // Set the name attribute of the submit input
                 if (!fieldHasName && !customFieldNameProvided) {
-                    this.$element.attr("name", pluginDefaults.submitFieldName);
+                    this.$element.attr('name', pluginDefaults.submitFieldName);
                 } else if (customFieldNameProvided) {
-                    this.$element.attr("name", this.config.submitFieldName);
+                    this.$element.attr('name', this.config.submitFieldName);
                 }
 
                 wrapper = this.$element.parent();
@@ -126,8 +126,8 @@
             } else {
 
                 // Build a hidden input and set this.$element as the wrapper
-                hiddenField = $("<input/>", {
-                    type: "hidden",
+                hiddenField = $('<input/>', {
+                    type: 'hidden',
                     name: this.config.submitFieldName
                 });
 
@@ -146,7 +146,7 @@
         /**
          * Generate the Day, Month and Year dropdowns
          */
-        buildDropdowns: function() {
+        buildDropdowns: function () {
             var $dayDropdown, $monthDropdown, $yearDropdown;
 
             // Build the day dropdown element
@@ -165,20 +165,20 @@
         /**
          * Attach the generated dropdowns to the container
          */
-        attachDropdowns: function() {
+        attachDropdowns: function () {
             var $element = this.internals.objectRefs.pluginWrapper,
                 $daySelect = this.internals.objectRefs.dayDropdown,
                 $monthSelect = this.internals.objectRefs.monthDropdown,
                 $yearSelect = this.internals.objectRefs.yearDropdown;
 
             switch (this.config.displayFormat) {
-                case "mdy":
+                case 'mdy':
                     $element.append($monthSelect, $daySelect, $yearSelect);
                     break;
-                case "ymd":
+                case 'ymd':
                     $element.append($yearSelect, $monthSelect, $daySelect);
                     break;
-                case "dmy":
+                case 'dmy':
                 default:
                     $element.append($daySelect, $monthSelect, $yearSelect);
                     break;
@@ -190,14 +190,14 @@
         /**
          * Bind the change event to the generated dropdowns
          */
-        bindChangeEvent: function() {
+        bindChangeEvent: function () {
             var $daySelect = this.internals.objectRefs.dayDropdown,
                 $monthSelect = this.internals.objectRefs.monthDropdown,
                 $yearSelect = this.internals.objectRefs.yearDropdown,
                 pluginHandle = this,
                 objectRefs = this.internals.objectRefs;
 
-            objectRefs.pluginWrapper.on("change", "select", function() {
+            objectRefs.pluginWrapper.on('change', 'select', function () {
                 var day = $daySelect.val(),
                     month = $monthSelect.val(),
                     year = $yearSelect.val(),
@@ -209,16 +209,16 @@
 
                 // If invalid - add an error class to the day dropdown and return
                 if (invalidDate) {
-                    objectRefs.dayDropdown.addClass("invalid");
+                    objectRefs.dayDropdown.addClass('invalid');
                     return false;
                 }
 
-                if ("00" !== objectRefs.dayDropdown.val()) {
-                    objectRefs.dayDropdown.removeClass("invalid");
+                if ('00' !== objectRefs.dayDropdown.val()) {
+                    objectRefs.dayDropdown.removeClass('invalid');
                 }
 
                 // Empty the hidden field after each change
-                objectRefs.hiddenField.val("");
+                objectRefs.hiddenField.val('');
 
                 // Only format the submit date if a full date has been selected
                 if (!invalidDate && (day * month * year !== 0)) {
@@ -227,7 +227,7 @@
                     objectRefs.hiddenField.val(newDate);
                 }
 
-	            objectRefs.hiddenField.change();
+                objectRefs.hiddenField.change();
             });
         },
 
@@ -237,50 +237,50 @@
          *
          * @returns {boolean}
          */
-        populateDefaultDate: function() {
-            var date    = this.config.defaultDate,
-                parts   = [],
-                day     = "",
-                month   = "",
-                year    = "";
+        populateDefaultDate: function () {
+            var date = this.config.defaultDate,
+                parts = [],
+                day = '',
+                month = '',
+                year = '';
 
             switch (this.config.defaultDateFormat) {
-                case "yyyy-mm-dd":
+                case 'yyyy-mm-dd':
                 default:
-                    parts = date.split("-");
+                    parts = date.split('-');
                     day = parts[2];
                     month = parts[1];
                     year = parts[0];
                     break;
 
-                case "dd/mm/yyyy":
-                    parts = date.split("/");
+                case 'dd/mm/yyyy':
+                    parts = date.split('/');
                     day = parts[0];
                     month = parts[1];
                     year = parts[2];
                     break;
 
-                case "mm/dd/yyyy":
-                    parts = date.split("/");
+                case 'mm/dd/yyyy':
+                    parts = date.split('/');
                     day = parts[1];
                     month = parts[0];
                     year = parts[2];
                     break;
 
-	            case "unix":
-		            parts = new Date();
-		            parts.setTime(date * 1000);
-		            day = parts.getDate() + "";
-		            month = (parts.getMonth() + 1) + "";
-		            year = parts.getFullYear();
+                case 'unix':
+                    parts = new Date();
+                    parts.setTime(date * 1000);
+                    day = parts.getDate() + '';
+                    month = (parts.getMonth() + 1) + '';
+                    year = parts.getFullYear();
 
-		            if (day.length < 2) {
-			            day = "0" + day;
-		            }
-		            if (month.length < 2) {
-			            month = "0" + month;
-		            }
-		            break;
+                    if (day.length < 2) {
+                        day = '0' + day;
+                    }
+                    if (month.length < 2) {
+                        month = '0' + month;
+                    }
+                    break;
             }
 
             // Set the values on the dropdowns
@@ -290,7 +290,7 @@
             this.internals.objectRefs.hiddenField.val(date);
 
             if (true === this.checkDate(day, month, year)) {
-                this.internals.objectRefs.dayDropdown.addClass("invalid");
+                this.internals.objectRefs.dayDropdown.addClass('invalid');
             }
 
             return true;
@@ -302,16 +302,16 @@
          * @param type
          * @returns {*|HTMLElement}
          */
-        buildBaseDropdown: function(type) {
+        buildBaseDropdown: function (type) {
             var classString = type;
 
             if (this.config.dropdownClass) {
-                classString += " " + this.config.dropdownClass;
+                classString += ' ' + this.config.dropdownClass;
             }
 
-            return $("<select></select>", {
+            return $('<select></select>', {
                 class: classString,
-                name: this.config.submitFieldName + "_[" + type + "]",
+                name: this.config.submitFieldName + '_[' + type + ']',
                 required: this.config.required
             });
         },
@@ -321,39 +321,39 @@
          *
          * @returns {*|HTMLElement}
          */
-        buildDayDropdown: function() {
+        buildDayDropdown: function () {
             var day,
-                dropdown = this.buildBaseDropdown("day"),
-	            option = document.createElement("option");
+                dropdown = this.buildBaseDropdown('day'),
+                option = document.createElement('option');
 
-	        option.setAttribute("value", "");
-	        option.appendChild(document.createTextNode(Plugin.message.day));
-	        dropdown.append(option);
+            option.setAttribute('value', '');
+            option.appendChild(document.createTextNode(Plugin.message.day));
+            dropdown.append(option);
 
             // Days 1-9
-            for (var i = 1;  i < 10; i++) {
+            for (var i = 1; i < 10; i++) {
                 if (this.config.daySuffixes) {
                     day = i + this.getSuffix(i);
                 } else {
-                    day = "0" + i;
+                    day = '0' + i;
                 }
-	            option = document.createElement("option");
-	            option.setAttribute("value", "0" + i);
-	            option.appendChild(document.createTextNode(day));
-	            dropdown.append(option);
+                option = document.createElement('option');
+                option.setAttribute('value', '0' + i);
+                option.appendChild(document.createTextNode(day));
+                dropdown.append(option);
             }
 
             // Days 10-31
-            for (var j = 10;  j <= 31; j++) {
+            for (var j = 10; j <= 31; j++) {
                 day = j;
 
                 if (this.config.daySuffixes) {
                     day = j + this.getSuffix(j);
                 }
-	            option = document.createElement("option");
-	            option.setAttribute("value", j);
-	            option.appendChild(document.createTextNode(day));
-	            dropdown.append(option);
+                option = document.createElement('option');
+                option.setAttribute('value', j);
+                option.appendChild(document.createTextNode(day));
+                dropdown.append(option);
             }
 
             return dropdown;
@@ -364,12 +364,12 @@
          *
          * @returns {*|HTMLElement}
          */
-        buildMonthDropdown: function() {
-            var dropdown = this.buildBaseDropdown("month"),
-	            option = document.createElement("option");
+        buildMonthDropdown: function () {
+            var dropdown = this.buildBaseDropdown('month'),
+                option = document.createElement('option');
 
-	        option.setAttribute("value", "");
-	        option.appendChild(document.createTextNode(Plugin.message.month));
+            option.setAttribute('value', '');
+            option.appendChild(document.createTextNode(Plugin.message.month));
             dropdown.append(option);
 
             // Populate the month values
@@ -378,13 +378,13 @@
                 var month;
 
                 switch (this.config.monthFormat) {
-                    case "short":
+                    case 'short':
                         month = this.internals.monthShort[monthNo - 1];
                         break;
-                    case "long":
+                    case 'long':
                         month = this.internals.monthLong[monthNo - 1];
                         break;
-                    case "numeric":
+                    case 'numeric':
                         month = monthNo;
 
                         if (this.config.monthSuffixes) {
@@ -394,13 +394,13 @@
                 }
 
                 if (monthNo < 10) {
-                    monthNo = "0" + monthNo;
+                    monthNo = '0' + monthNo;
                 }
 
-	            option = document.createElement("option");
-	            option.setAttribute("value", monthNo);
-	            option.appendChild(document.createTextNode(month));
-	            dropdown.append(option);
+                option = document.createElement('option');
+                option.setAttribute('value', monthNo);
+                option.appendChild(document.createTextNode(month));
+                dropdown.append(option);
             }
 
             return dropdown;
@@ -414,15 +414,15 @@
          *
          * @returns {*|HTMLElement}
          */
-        buildYearDropdown: function() {
+        buildYearDropdown: function () {
             var minYear = this.config.minYear,
                 maxYear = this.config.maxYear,
-                dropdown = this.buildBaseDropdown("year"),
-	            option = document.createElement("option");
+                dropdown = this.buildBaseDropdown('year'),
+                option = document.createElement('option');
 
-	        option.setAttribute("value", "");
-	        option.appendChild(document.createTextNode(Plugin.message.year));
-	        dropdown.append(option);
+            option.setAttribute('value', '');
+            option.appendChild(document.createTextNode(Plugin.message.year));
+            dropdown.append(option);
 
             if (!minYear) {
                 minYear = this.internals.currentYear - (this.config.maxAge + 1);
@@ -433,10 +433,10 @@
             }
 
             for (var i = maxYear; i >= minYear; i--) {
-	            option = document.createElement("option");
-	            option.setAttribute("value", i);
-	            option.appendChild(document.createTextNode(i));
-	            dropdown.append(option);
+                option = document.createElement('option');
+                option.setAttribute('value', i);
+                option.appendChild(document.createTextNode(i));
+                dropdown.append(option);
             }
 
             return dropdown;
@@ -448,21 +448,21 @@
          * @param number
          * @returns {string}
          */
-        getSuffix: function(number) {
-            var suffix = "";
+        getSuffix: function (number) {
+            var suffix = '';
 
-            switch (number % 10){
+            switch (number % 10) {
                 case 1:
-                    suffix = (number % 100 === 11) ? "th" : "st";
+                    suffix = (number % 100 === 11) ? 'th' : 'st';
                     break;
                 case 2:
-                    suffix = (number % 100 === 12) ? "th" : "nd";
+                    suffix = (number % 100 === 12) ? 'th' : 'nd';
                     break;
                 case 3:
-                    suffix = (number % 100 === 13) ? "th" : "rd";
+                    suffix = (number % 100 === 13) ? 'th' : 'rd';
                     break;
                 default:
-                    suffix = "th";
+                    suffix = 'th';
                     break;
             }
 
@@ -477,10 +477,10 @@
          * @param year
          * @returns {boolean}
          */
-        checkDate: function(day, month, year) {
+        checkDate: function (day, month, year) {
             var invalidDate;
 
-            if (month !== "00") {
+            if (month !== '00') {
                 var numDaysInMonth = (new Date(year, month, 0).getDate()),
                     selectedDayInt = parseInt(day, 10);
 
@@ -488,7 +488,7 @@
 
                 // If the date is invalid, empty the hidden field to prevent invalid submissions
                 if (invalidDate) {
-                    this.internals.objectRefs.hiddenField.val("");
+                    this.internals.objectRefs.hiddenField.val('');
                 }
             }
 
@@ -502,17 +502,17 @@
          * @param selectedDayInt
          * @returns {boolean}
          */
-        updateDayOptions: function(numDaysInMonth, selectedDayInt) {
-            var lastDayOption = parseInt(this.internals.objectRefs.dayDropdown.children(":last").val(), 10),
-                newDayOption = "",
-                newDayText = "",
+        updateDayOptions: function (numDaysInMonth, selectedDayInt) {
+            var lastDayOption = parseInt(this.internals.objectRefs.dayDropdown.children(':last').val(), 10),
+                newDayOption = '',
+                newDayText = '',
                 invalidDay = false;
 
             // If the selected month has less days than the Day dropdown currently contains - remove the extra days
             if (lastDayOption > numDaysInMonth) {
 
                 while (lastDayOption > numDaysInMonth) {
-                    this.internals.objectRefs.dayDropdown.children(":last").remove();
+                    this.internals.objectRefs.dayDropdown.children(':last').remove();
                     lastDayOption--;
                 }
 
@@ -535,10 +535,10 @@
                     }
 
                     // Build the option and append to the dropdown
-	                var option = document.createElement("option");
-	                option.setAttribute("value", newDayOption);
-	                option.appendChild(document.createTextNode(newDayText));
-	                this.internals.objectRefs.dayDropdown.append(option);
+                    var option = document.createElement('option');
+                    option.setAttribute('value', newDayOption);
+                    option.appendChild(document.createTextNode(newDayText));
+                    this.internals.objectRefs.dayDropdown.append(option);
                 }
             }
 
@@ -553,30 +553,30 @@
          * @param year
          * @returns {*}
          */
-        formatSubmitDate: function(day, month, year) {
+        formatSubmitDate: function (day, month, year) {
             var formattedDate,
-	            _date;
+                _date;
 
             switch (this.config.submitFormat) {
-                case "yyyy-mm-dd":
+                case 'yyyy-mm-dd':
                 default:
-                    formattedDate = year + "-" + month + "-" + day;
+                    formattedDate = year + '-' + month + '-' + day;
                     break;
 
-                case "mm/dd/yyyy":
-                    formattedDate = month + "/" + day + "/" + year;
+                case 'mm/dd/yyyy':
+                    formattedDate = month + '/' + day + '/' + year;
                     break;
 
-                case "dd/mm/yyyy":
-                    formattedDate = day + "/" + month + "/" + year;
+                case 'dd/mm/yyyy':
+                    formattedDate = day + '/' + month + '/' + year;
                     break;
 
-	            case "unix":
-		            _date = new Date();
-		            _date.setDate(day);
-		            _date.setMonth(month - 1);
-		            _date.setYear(year);
-		            formattedDate = Math.round(_date.getTime() / 1000);
+                case 'unix':
+                    _date = new Date();
+                    _date.setDate(day);
+                    _date.setMonth(month - 1);
+                    _date.setYear(year);
+                    formattedDate = Math.round(_date.getTime() / 1000);
             }
 
             return formattedDate;
@@ -585,14 +585,14 @@
         /**
          * Revert the changes applied by the plugin on the specified element
          */
-        destroy: function() {
+        destroy: function () {
             var wrapperClass = this.config.wrapperClass;
 
             if (this.$element.hasClass(wrapperClass)) {
                 this.$element.empty();
             } else {
                 var $parent = this.$element.parent(),
-                    $select = $parent.find("select");
+                    $select = $parent.find('select');
 
                 this.$element.unwrap();
                 $select.remove();
@@ -602,20 +602,20 @@
 
     // A really lightweight plugin wrapper around the constructor,
     // preventing against multiple instantiations
-    $.fn[ pluginName ] = function ( options ) {
-        this.each(function() {
-            if(typeof options === "string") {
+    $.fn[pluginName] = function (options) {
+        this.each(function () {
+            if (typeof options === 'string') {
                 var args = Array.prototype.slice.call(arguments, 1);
-                var plugin = $.data(this, "plugin_" + pluginName);
+                var plugin = $.data(this, 'plugin_' + pluginName);
 
-                if (typeof plugin === "undefined") {
-                    $.error("Please initialize the plugin before calling this method.");
+                if (typeof plugin === 'undefined') {
+                    $.error('Please initialize the plugin before calling this method.');
                     return false;
                 }
                 plugin[options].apply(plugin, args);
             } else {
-                if ( !$.data( this, "plugin_" + pluginName ) ) {
-                    $.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+                if (!$.data(this, 'plugin_' + pluginName)) {
+                    $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
                 }
             }
         });
@@ -623,5 +623,4 @@
         return this;
     };
 
-})( jQuery, window, document );
-
+})(jQuery, window, document);
