@@ -26,7 +26,8 @@
             daySuffixes: true,
             monthSuffixes: true,
             monthFormat: "long",
-            required: false
+            required: false,
+            increaseYear: true
         };
 
     // The actual plugin constructor
@@ -108,7 +109,7 @@
 	            if (!this.config.defaultDate) {
 		            this.config.defaultDate = this.element.value;
 	            }
-                
+
                 // Configure the input element and wrap
                 hiddenField = this.$element.attr("type", "hidden")
                     .attr("name", this.config.submitFieldName)
@@ -415,6 +416,7 @@
             var minYear = this.config.minYear,
                 maxYear = this.config.maxYear,
                 dropdown = this.buildBaseDropdown("year"),
+                increaseYear = this.config.increaseYear,
 	            option = document.createElement("option");
 
 	        option.setAttribute("value", "");
@@ -429,13 +431,22 @@
                 maxYear = this.internals.currentYear - this.config.minAge;
             }
 
-            for (var i = maxYear; i >= minYear; i--) {
-	            option = document.createElement("option");
-	            option.setAttribute("value", i);
-	            option.appendChild(document.createTextNode(i));
-	            dropdown.append(option);
+            if (increaseYear){
+              for (var i = minYear; i <= maxYear; i++) {
+  	            option = document.createElement("option");
+  	            option.setAttribute("value", i);
+  	            option.appendChild(document.createTextNode(i));
+  	            dropdown.append(option);
+              }
             }
-
+            else {
+              for (var i = maxYear; i >= minYear; i--) {
+  	            option = document.createElement("option");
+  	            option.setAttribute("value", i);
+  	            option.appendChild(document.createTextNode(i));
+  	            dropdown.append(option);
+              }
+            }
             return dropdown;
         },
 
