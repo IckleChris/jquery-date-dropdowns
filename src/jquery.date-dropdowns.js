@@ -38,9 +38,9 @@
     }
 
     Plugin.message = {
-        day: 'Day',
-        month: 'Month',
-        year: 'Year'
+        day: 'Día',
+        month: 'Mes',
+        year: 'Año'
     };
 
     // Avoid Plugin.prototype conflicts
