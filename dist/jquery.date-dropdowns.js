@@ -1,10 +1,3 @@
-/*
- *  jQuery Date Dropdowns - v1.0.0
- *  A simple, customisable date select plugin
- *
- *  Made by Chris Brown
- *  Under MIT License
- */
 ;(function ($, window, document, undefined) {
 
     'use strict';
@@ -26,7 +19,9 @@
             daySuffixes: true,
             monthSuffixes: true,
             monthFormat: 'long',
-            required: false
+            required: false,
+            monthShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            monthLong: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Augosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
         };
 
     // The actual plugin constructor
@@ -87,8 +82,8 @@
             this.internals.currentDay = date.getDate();
             this.internals.currentMonth = date.getMonth() + 1;
             this.internals.currentYear = date.getFullYear();
-            this.internals.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            this.internals.monthLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            this.internals.monthShort = this.config.monthShort,
+            this.internals.monthLong = this.config.monthLong
         },
 
         /**
