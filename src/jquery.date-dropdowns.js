@@ -20,8 +20,13 @@
             monthSuffixes: true,
             monthFormat: 'long',
             required: false,
-            monthShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            monthLong: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Augosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+            message: {
+                day: 'Day',
+                month: 'Month',
+                year: 'Year'
+            },
+            monthShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            monthLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         };
 
     // The actual plugin constructor
@@ -36,12 +41,6 @@
 
         return this;
     }
-
-    Plugin.message = {
-        day: 'Día',
-        month: 'Mes',
-        year: 'Año'
-    };
 
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
@@ -322,7 +321,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.day));
+            option.appendChild(document.createTextNode(this.config.message.day));
             dropdown.append(option);
 
             // Days 1-9
@@ -364,7 +363,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.month));
+            option.appendChild(document.createTextNode(this.config.message.month));
             dropdown.append(option);
 
             // Populate the month values
@@ -416,7 +415,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.year));
+            option.appendChild(document.createTextNode(this.config.message.year));
             dropdown.append(option);
 
             if (!minYear) {
