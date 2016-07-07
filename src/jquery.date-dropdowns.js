@@ -19,7 +19,33 @@
             daySuffixes: true,
             monthSuffixes: true,
             monthFormat: 'long',
-            required: false
+            required: false,
+            message: {
+                day: 'Day',
+                month: 'Month',
+                year: 'Year'
+            },
+            monthShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            monthLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            ordinalize: function (number) {
+                var suffix = '';
+                switch (number % 10) {
+                    case 1:
+                        suffix = (number % 100 === 11) ? 'th' : 'st';
+                        break;
+                    case 2:
+                        suffix = (number % 100 === 12) ? 'th' : 'nd';
+                        break;
+                    case 3:
+                        suffix = (number % 100 === 13) ? 'th' : 'rd';
+                        break;
+                    default:
+                        suffix = 'th';
+                        break;
+                }
+
+                return number+suffix;
+            }
         };
 
     // The actual plugin constructor
@@ -34,12 +60,6 @@
 
         return this;
     }
-
-    Plugin.message = {
-        day: 'Day',
-        month: 'Month',
-        year: 'Year'
-    };
 
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
@@ -80,8 +100,8 @@
             this.internals.currentDay = date.getDate();
             this.internals.currentMonth = date.getMonth() + 1;
             this.internals.currentYear = date.getFullYear();
-            this.internals.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            this.internals.monthLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            this.internals.monthShort = this.config.monthShort,
+            this.internals.monthLong = this.config.monthLong
         },
 
         /**
@@ -320,13 +340,13 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.day));
+            option.appendChild(document.createTextNode(this.config.message.day));
             dropdown.append(option);
 
             // Days 1-9
             for (var i = 1; i < 10; i++) {
                 if (this.config.daySuffixes) {
-                    day = i + this.getSuffix(i);
+                    day = this.config.ordinalize(i);
                 } else {
                     day = '0' + i;
                 }
@@ -341,7 +361,7 @@
                 day = j;
 
                 if (this.config.daySuffixes) {
-                    day = j + this.getSuffix(j);
+                    day = this.config.ordinalize(j);
                 }
                 option = document.createElement('option');
                 option.setAttribute('value', j);
@@ -362,7 +382,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.month));
+            option.appendChild(document.createTextNode(this.config.message.month));
             dropdown.append(option);
 
             // Populate the month values
@@ -381,7 +401,7 @@
                         month = monthNo;
 
                         if (this.config.monthSuffixes) {
-                            month += this.getSuffix(monthNo);
+                            month = this.config.ordinalize(monthNo);
                         }
                         break;
                 }
@@ -414,7 +434,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.year));
+            option.appendChild(document.createTextNode(this.config.message.year));
             dropdown.append(option);
 
             if (!minYear) {
@@ -433,33 +453,6 @@
             }
 
             return dropdown;
-        },
-
-        /**
-         * Get the relevant suffix for a day/month number
-         *
-         * @param number
-         * @returns {string}
-         */
-        getSuffix: function (number) {
-            var suffix = '';
-
-            switch (number % 10) {
-                case 1:
-                    suffix = (number % 100 === 11) ? 'th' : 'st';
-                    break;
-                case 2:
-                    suffix = (number % 100 === 12) ? 'th' : 'nd';
-                    break;
-                case 3:
-                    suffix = (number % 100 === 13) ? 'th' : 'rd';
-                    break;
-                default:
-                    suffix = 'th';
-                    break;
-            }
-
-            return suffix;
         },
 
         /**
@@ -524,7 +517,7 @@
 
                     // Add the suffix if required
                     if (this.config.daySuffixes) {
-                        newDayText += this.getSuffix(lastDayOption);
+                        newDayText = this.config.ordinalize(lastDayOption);
                     }
 
                     // Build the option and append to the dropdown
