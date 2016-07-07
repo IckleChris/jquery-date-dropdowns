@@ -26,7 +26,25 @@
                 year: 'Year'
             },
             monthShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            monthLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            monthLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            ordinalize: function (number) {
+                switch (number % 10) {
+                    case 1:
+                        suffix = (number % 100 === 11) ? 'th' : 'st';
+                        break;
+                    case 2:
+                        suffix = (number % 100 === 12) ? 'th' : 'nd';
+                        break;
+                    case 3:
+                        suffix = (number % 100 === 13) ? 'th' : 'rd';
+                        break;
+                    default:
+                        suffix = 'th';
+                        break;
+                }
+
+                return number+suffix;
+            }
         };
 
     // The actual plugin constructor
@@ -327,7 +345,7 @@
             // Days 1-9
             for (var i = 1; i < 10; i++) {
                 if (this.config.daySuffixes) {
-                    day = i + this.getSuffix(i);
+                    day = this.options.ordinalize(i);
                 } else {
                     day = '0' + i;
                 }
@@ -342,7 +360,7 @@
                 day = j;
 
                 if (this.config.daySuffixes) {
-                    day = j + this.getSuffix(j);
+                    day = this.options.ordinalize(j);
                 }
                 option = document.createElement('option');
                 option.setAttribute('value', j);
@@ -382,7 +400,7 @@
                         month = monthNo;
 
                         if (this.config.monthSuffixes) {
-                            month += this.getSuffix(monthNo);
+                            month = this.options.ordinalize(monthNo);
                         }
                         break;
                 }
@@ -434,33 +452,6 @@
             }
 
             return dropdown;
-        },
-
-        /**
-         * Get the relevant suffix for a day/month number
-         *
-         * @param number
-         * @returns {string}
-         */
-        getSuffix: function (number) {
-            var suffix = '';
-
-            switch (number % 10) {
-                case 1:
-                    suffix = (number % 100 === 11) ? 'th' : 'st';
-                    break;
-                case 2:
-                    suffix = (number % 100 === 12) ? 'th' : 'nd';
-                    break;
-                case 3:
-                    suffix = (number % 100 === 13) ? 'th' : 'rd';
-                    break;
-                default:
-                    suffix = 'th';
-                    break;
-            }
-
-            return suffix;
         },
 
         /**
@@ -525,7 +516,7 @@
 
                     // Add the suffix if required
                     if (this.config.daySuffixes) {
-                        newDayText += this.getSuffix(lastDayOption);
+                        newDayText = this.options.ordinalize(lastDayOption);
                     }
 
                     // Build the option and append to the dropdown
