@@ -345,7 +345,7 @@
             // Days 1-9
             for (var i = 1; i < 10; i++) {
                 if (this.config.daySuffixes) {
-                    day = this.options.ordinalize(i);
+                    day = this.config.ordinalize(i);
                 } else {
                     day = '0' + i;
                 }
@@ -360,7 +360,7 @@
                 day = j;
 
                 if (this.config.daySuffixes) {
-                    day = this.options.ordinalize(j);
+                    day = this.config.ordinalize(j);
                 }
                 option = document.createElement('option');
                 option.setAttribute('value', j);
@@ -400,7 +400,7 @@
                         month = monthNo;
 
                         if (this.config.monthSuffixes) {
-                            month = this.options.ordinalize(monthNo);
+                            month = this.config.ordinalize(monthNo);
                         }
                         break;
                 }
@@ -516,7 +516,7 @@
 
                     // Add the suffix if required
                     if (this.config.daySuffixes) {
-                        newDayText = this.options.ordinalize(lastDayOption);
+                        newDayText = this.config.ordinalize(lastDayOption);
                     }
 
                     // Build the option and append to the dropdown
