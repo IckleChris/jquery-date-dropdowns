@@ -21,7 +21,8 @@
             monthFormat: 'long',
             required: false,
             monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            initialDayMonthYearValues: ['Day', 'Month', 'Year']
         };
 
     // The actual plugin constructor
@@ -36,12 +37,6 @@
 
         return this;
     }
-
-    Plugin.message = {
-        day: 'Day',
-        month: 'Month',
-        year: 'Year'
-    };
 
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
@@ -141,6 +136,12 @@
          */
         buildDropdowns: function () {
             var $dayDropdown, $monthDropdown, $yearDropdown;
+
+            Plugin.message = {
+                day: this.config.initialDayMonthYearValues[0],
+                month: this.config.initialDayMonthYearValues[1],
+                year: this.config.initialDayMonthYearValues[2]
+            };
 
             // Build the day dropdown element
             $dayDropdown = this.buildDayDropdown();

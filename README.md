@@ -23,6 +23,13 @@ The **Day** dropdown's options change automatically depending on the month selec
 
 ##Configuration Options
 
+####initialDayMonthYearValues
+
+Type: `array`  
+Default: `['Day', 'Month', 'Year']`  
+
+Initial dropdown values (can be overridden for internationalisation purposes)
+
 ####daySuffixes
 
 Type: `boolean`  
