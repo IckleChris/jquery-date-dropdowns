@@ -19,7 +19,9 @@
             daySuffixes: true,
             monthSuffixes: true,
             monthFormat: 'long',
-            required: false
+            required: false,
+            monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         };
 
     // The actual plugin constructor
@@ -80,8 +82,6 @@
             this.internals.currentDay = date.getDate();
             this.internals.currentMonth = date.getMonth() + 1;
             this.internals.currentYear = date.getFullYear();
-            this.internals.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            this.internals.monthLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         },
 
         /**
@@ -372,10 +372,10 @@
 
                 switch (this.config.monthFormat) {
                     case 'short':
-                        month = this.internals.monthShort[monthNo - 1];
+                        month = this.config.monthShortValues[monthNo - 1];
                         break;
                     case 'long':
-                        month = this.internals.monthLong[monthNo - 1];
+                        month = this.config.monthLongValues[monthNo - 1];
                         break;
                     case 'numeric':
                         month = monthNo;

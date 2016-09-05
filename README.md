@@ -96,6 +96,20 @@ Options: `numeric`, `short`
 
 Specify the format dates should be in when presented to the user
 
+####monthLongValues
+
+Type: `array`  
+Default: `['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']`  
+
+Long month dropdown values (can be overridden for internationalisation purposes)
+
+####monthShortValues
+
+Type: `array`  
+Default: `['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']`  
+
+Short month dropdown values (can be overridden for internationalisation purposes)
+
 ####monthSuffixes
 
 type: `boolean`  
