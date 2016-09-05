@@ -31,7 +31,8 @@ module.exports = function(grunt) {
         jshint: {
             files: ["src/jquery.date-dropdowns.js"],
             options: {
-                jshintrc: ".jshintrc"
+                jshintrc: ".jshintrc",
+                reporterOutput: ""
             }
         },
 
