@@ -88,7 +88,6 @@ Default: `null`
 
 The lowest year option that will ba available. **Note:** this will take precedence over **maxAge**
 
-
 ####monthFormat
 
 Type: `string`  
@@ -96,6 +95,13 @@ Default: `long`
 Options: `numeric`, `short`
 
 Specify the format dates should be in when presented to the user
+
+####monthSuffixes
+
+type: `boolean`  
+Default: `true`
+
+Indicates whether month numbers should include their suffixes when displayed to the user (e.g. 1st, 2nd, 3rd)
 
 ####required
 
