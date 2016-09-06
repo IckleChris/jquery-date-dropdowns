@@ -37,6 +37,13 @@ Default: `true`
 
 Indicates whether day numbers should include their suffixes when displayed to the user (e.g. 1st, 2nd, 3rd)
 
+####daySuffixValues
+
+Type: `array`
+Default: `['st', 'nd', 'rd', 'th']`
+
+Ordinal indicators (can be overridden for internationalisation purposes)
+
 ####defaultDate
 
 Type: `string`  

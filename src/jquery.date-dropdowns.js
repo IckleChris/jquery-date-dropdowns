@@ -22,7 +22,8 @@
             required: false,
             monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            initialDayMonthYearValues: ['Day', 'Month', 'Year']
+            initialDayMonthYearValues: ['Day', 'Month', 'Year'],
+            daySuffixValues: ['st', 'nd', 'rd', 'th']
         };
 
     // The actual plugin constructor
@@ -444,16 +445,20 @@
          */
         getSuffix: function (number) {
             var suffix = '';
+            var st = this.config.daySuffixValues[0];
+            var nd = this.config.daySuffixValues[1];
+            var rd = this.config.daySuffixValues[2];
+            var th = this.config.daySuffixValues[3];
 
             switch (number % 10) {
                 case 1:
-                    suffix = (number % 100 === 11) ? 'th' : 'st';
+                    suffix = (number % 100 === 11) ? th : st;
                     break;
                 case 2:
-                    suffix = (number % 100 === 12) ? 'th' : 'nd';
+                    suffix = (number % 100 === 12) ? th : nd;
                     break;
                 case 3:
-                    suffix = (number % 100 === 13) ? 'th' : 'rd';
+                    suffix = (number % 100 === 13) ? th : rd;
                     break;
                 default:
                     suffix = 'th';
