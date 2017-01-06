@@ -23,6 +23,13 @@ The **Day** dropdown's options change automatically depending on the month selec
 
 ##Configuration Options
 
+####dayLabel
+
+Type: `string`  
+Default: `Day`
+
+Identifies the "Day" dropdown
+
 ####daySuffixes
 
 Type: `boolean`  
@@ -97,6 +104,13 @@ Options: `numeric`, `short`
 
 Specify the format dates should be in when presented to the user
 
+####monthLabel
+
+Type: `string`  
+Default: `Month`
+
+Identifies the "Month" dropdown
+
 ####required
 
 Type: `boolean`  
@@ -124,6 +138,13 @@ Type: `string`
 Default: `date-dropdowns`  
 
 Specify a classname to add to the widget wrapper
+
+####yearLabel
+
+Type: `string`  
+Default: `Year`
+
+Identifies the "Year" dropdown
 
 ---
 
