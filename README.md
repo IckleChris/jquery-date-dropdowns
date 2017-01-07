@@ -23,12 +23,12 @@ The **Day** dropdown's options change automatically depending on the month selec
 
 ##Configuration Options
 
-####initialDayMonthYearValues
+####dayLabel
 
-Type: `array`  
-Default: `['Day', 'Month', 'Year']`  
+Type: `string`
+Default: `Day`
 
-Initial dropdown values (can be overridden for internationalisation purposes)
+Identifies the "Day" dropdown
 
 ####daySuffixes
 
@@ -74,6 +74,13 @@ Default: `null`
 
 Set the class attribute of generated dropdown elements
 
+####initialDayMonthYearValues
+
+Type: `array`
+Default: `['Day', 'Month', 'Year']`
+
+Initial dropdown values (can be overridden for internationalisation purposes)
+
 ####maxAge
 
 Type: `int`  
@@ -110,23 +117,30 @@ Options: `numeric`, `short`
 
 Specify the format dates should be in when presented to the user
 
+####monthLabel
+
+Type: `string`
+Default: `Month`
+
+Identifies the "Month" dropdown
+
 ####monthLongValues
 
-Type: `array`  
-Default: `['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']`  
+Type: `array`
+Default: `['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']`
 
 Long month dropdown values (can be overridden for internationalisation purposes)
 
 ####monthShortValues
 
-Type: `array`  
-Default: `['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']`  
+Type: `array`
+Default: `['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']`
 
 Short month dropdown values (can be overridden for internationalisation purposes)
 
 ####monthSuffixes
 
-type: `boolean`  
+type: `boolean`
 Default: `true`
 
 Indicates whether month numbers should include their suffixes when displayed to the user (e.g. 1st, 2nd, 3rd)
@@ -158,6 +172,13 @@ Type: `string`
 Default: `date-dropdowns`  
 
 Specify a classname to add to the widget wrapper
+
+####yearLabel
+
+Type: `string`
+Default: `Year`
+
+Identifies the "Year" dropdown
 
 ---
 

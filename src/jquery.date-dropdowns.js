@@ -20,6 +20,9 @@
             monthSuffixes: true,
             monthFormat: 'long',
             required: false,
+            dayLabel: 'Day',
+            monthLabel: 'Month',
+            yearLabel: 'Year',
             monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             initialDayMonthYearValues: ['Day', 'Month', 'Year'],
@@ -322,7 +325,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.day));
+            option.appendChild(document.createTextNode(this.config.dayLabel));
             dropdown.append(option);
 
             // Days 1-9
@@ -364,7 +367,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.month));
+            option.appendChild(document.createTextNode(this.config.monthLabel));
             dropdown.append(option);
 
             // Populate the month values
@@ -416,7 +419,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.year));
+            option.appendChild(document.createTextNode(this.config.yearLabel));
             dropdown.append(option);
 
             if (!minYear) {
