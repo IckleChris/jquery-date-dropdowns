@@ -114,8 +114,19 @@
     <span class="highlight">required: true</span>
 });</code></pre>
             </div>
-		</div>
+		
+		<div class="example">
+				<h2>Alternative Select Labels</h2>
+				<div id="example11"></div>
+<pre class="code-wrapper"><code>$("example11").dateDropdowns({
+    <span class="highlight">yearLabel: 'Anno',
+    monthLabel: 'Mense',
+    dayLabel: 'Die',</span>
+});</code></pre>
+			</div>
+        </div>
 
+		
 		<script>
 			$(function() {
 				$("#example1").dateDropdowns();
@@ -168,7 +179,14 @@
                     submitFieldName: 'example10',
                     required: true
                 });
-
+                
+                $("#example11").dateDropdowns({
+        			yearLabel: 'Anno',
+        			monthLabel: 'Mense',
+        			dayLabel: 'Die',
+        			submitFieldName: 'example11',
+    			});
+                
 				// Set all hidden fields to type text for the demo
 				$('input[type="hidden"]').attr('type', 'text').attr('readonly', 'readonly');
 			});

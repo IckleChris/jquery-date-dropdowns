@@ -26,7 +26,10 @@
             daySuffixes: true,
             monthSuffixes: true,
             monthFormat: 'long',
-            required: false
+            required: false,
+            dayLabel: 'Day',
+            monthLabel: 'Month',
+            yearLabel: 'Year',
         };
 
     // The actual plugin constructor
@@ -41,12 +44,6 @@
 
         return this;
     }
-
-    Plugin.message = {
-        day: 'Day',
-        month: 'Month',
-        year: 'Year'
-    };
 
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
@@ -327,7 +324,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.day));
+            option.appendChild(document.createTextNode(this.config.dayLabel));
             dropdown.append(option);
 
             // Days 1-9
@@ -369,7 +366,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.month));
+            option.appendChild(document.createTextNode(this.config.monthLabel));
             dropdown.append(option);
 
             // Populate the month values
@@ -421,7 +418,7 @@
                 option = document.createElement('option');
 
             option.setAttribute('value', '');
-            option.appendChild(document.createTextNode(Plugin.message.year));
+            option.appendChild(document.createTextNode(this.config.yearLabel));
             dropdown.append(option);
 
             if (!minYear) {
