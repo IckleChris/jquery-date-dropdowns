@@ -208,6 +208,7 @@
                 // If invalid - add an error class to the day dropdown and return
                 if (invalidDate) {
                     objectRefs.dayDropdown.addClass('invalid');
+                    objectRefs.hiddenField.change();
                     return false;
                 }
 
