@@ -464,7 +464,7 @@
                     suffix = (number % 100 === 13) ? th : rd;
                     break;
                 default:
-                    suffix = 'th';
+                    suffix = th;
                     break;
             }
 
